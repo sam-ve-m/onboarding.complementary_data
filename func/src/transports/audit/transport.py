@@ -1,6 +1,7 @@
 # Jormungandr - Onboarding
 from ...domain.exceptions import ErrorOnSendAuditLog
 from ...domain.enums.types import QueueTypes
+from ...domain.complementary_data.model import ComplementaryDataModel
 
 # Third party
 from decouple import config
@@ -15,11 +16,8 @@ class Audit:
     schema_name = config("PERSEPHONE_USER_SELFIE")
 
     @classmethod
-    async def register_log(cls, unique_id: str, file_path: str):
-        message = {
-            "unique_id": unique_id,
-            "file_path": file_path,
-        }
+    async def register_log(cls, complementary_data_model: ComplementaryDataModel):
+        message = await complementary_data_model.get_audit_template()
         (
             success,
             status_sent_to_persephone

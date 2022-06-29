@@ -11,7 +11,6 @@ class UserRepository(MongoDbBaseRepository):
     database = config("MONGODB_DATABASE_NAME")
     collection = config("MONGODB_USER_COLLECTION")
 
-
     @classmethod
     async def find_one_by_unique_id(cls, unique_id: str) -> dict:
         collection = await cls._get_collection()
@@ -24,12 +23,12 @@ class UserRepository(MongoDbBaseRepository):
             raise ex
 
     @classmethod
-    async def update_one_with_user_identifier_data(cls, unique_id: dict, user_identifier_data):
+    async def update_one_with_user_complementary_data(cls, unique_id: dict, user_complementary_data):
         collection = await cls._get_collection()
         try:
-            user_updated = await collection.update_one({"unique_id": unique_id}, {"$set": user_identifier_data})
+            user_updated = await collection.update_one({"unique_id": unique_id}, {"$set": user_complementary_data})
             return user_updated
         except Exception as ex:
-            message = f'UserRepository::update_one_with_user_identifier_data::error on update identifier data":{user_identifier_data}'
+            message = f'UserRepository::update_one_with_user_complementary_data::error on update identifier data":{user_complementary_data}'
             Gladsheim.error(error=ex, message=message)
             raise ex
