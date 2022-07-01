@@ -13,7 +13,7 @@ from func.src.repositories.oracle.base_repository import OracleBaseRepository
 # nest_asyncio.apply()
 
 
-class SinacorRepository(OracleBaseRepository):
+class EnumerateRepository(OracleBaseRepository):
 
     @staticmethod
     def tuples_to_dict_list(fields: List[str], values: List[tuple]) -> List:
@@ -77,5 +77,5 @@ class SinacorRepository(OracleBaseRepository):
 
 if __name__ == "__main__":
     import asyncio
-    a = asyncio.run(SinacorRepository.get_marital_status(code=2))
+    a = asyncio.run(EnumerateRepository.get_marital_status(code=2))
     print(a)

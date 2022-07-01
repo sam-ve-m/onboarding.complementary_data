@@ -29,6 +29,6 @@ class UserRepository(MongoDbBaseRepository):
             user_updated = await collection.update_one({"unique_id": unique_id}, {"$set": user_complementary_data})
             return user_updated
         except Exception as ex:
-            message = f'UserRepository::update_one_with_user_complementary_data::error on update identifier data":{user_complementary_data}'
+            message = f'UserRepository::update_one_with_user_complementary_data::error on update complementary data":{user_complementary_data}'
             Gladsheim.error(error=ex, message=message)
             raise ex

@@ -1,0 +1,85 @@
+# Jormungandr - Onboarding
+from func.src.domain.exceptions import InvalidNationality, InvalidMaritalStatus, InvalidCountryAcronym
+
+# Standard
+from unittest.mock import patch
+
+# Third party
+import pytest
+
+
+@pytest.mark.asyncio
+@patch("func.src.services.enumerate.EnumerateRepository.get_nationality", return_value=True)
+async def test_when_spouse_nationality_is_valid_then_return_true(mock_get_nationality, enumerate_service):
+    success = await enumerate_service._validate_nationality()
+
+    assert success is True
+
+
+@pytest.mark.asyncio
+@patch("func.src.services.enumerate.EnumerateRepository.get_nationality", return_value=True)
+async def test_when_spouse_is_none_then_return_true(mock_get_nationality, enumerate_service_only_mandatory):
+    success = await enumerate_service_only_mandatory._validate_nationality()
+
+    assert success is True
+
+
+@pytest.mark.asyncio
+@patch("func.src.services.enumerate.EnumerateRepository.get_nationality", return_value=True)
+async def test_when_spouse_nationality_is_valid_then_mock_was_called(mock_get_nationality, enumerate_service):
+    await enumerate_service._validate_nationality()
+
+    mock_get_nationality.assert_called_once_with(code=5)
+
+
+@pytest.mark.asyncio
+@patch("func.src.services.enumerate.EnumerateRepository.get_nationality", return_value=False)
+async def test_when_spouse_nationality_invalid_then_raises(mock_get_nationality, enumerate_service):
+    with pytest.raises(InvalidNationality):
+        await enumerate_service._validate_nationality()
+
+
+@pytest.mark.asyncio
+@patch("func.src.services.enumerate.EnumerateRepository.get_country", return_value=True)
+async def test_when_tax_residence_is_valid_then_return_true(mock_get_country, enumerate_service):
+    success = await enumerate_service._validate_country_acronym()
+
+    assert success is True
+
+
+@pytest.mark.asyncio
+@patch("func.src.services.enumerate.EnumerateRepository.get_country", return_value=True)
+async def test_when_tax_residence_is_none_then_return_true(mock_get_country, enumerate_service_only_mandatory):
+    success = await enumerate_service_only_mandatory._validate_country_acronym()
+
+    assert success is True
+
+
+@pytest.mark.asyncio
+@patch("func.src.services.enumerate.EnumerateRepository.get_country", return_value=True)
+async def test_when_tax_residence_is_valid_then_mock_was_called(mock_get_country, enumerate_service):
+    await enumerate_service._validate_country_acronym()
+
+    assert mock_get_country.call_count == 2
+
+
+@pytest.mark.asyncio
+@patch("func.src.services.enumerate.EnumerateRepository.get_country", return_value=False)
+async def test_when_tax_residence_invalid_then_raises(mock_get_country, enumerate_service):
+    with pytest.raises(InvalidCountryAcronym):
+        await enumerate_service._validate_country_acronym()
+
+
+@pytest.mark.asyncio
+@patch("func.src.services.enumerate.EnumerateRepository.get_marital_status", return_value=True)
+async def test_when_marital_status_is_valid_then_return_true(mock_get_marital_status, enumerate_service):
+    success = await enumerate_service._validate_marital_status()
+
+    assert success is True
+
+
+@pytest.mark.asyncio
+@patch("func.src.services.enumerate.EnumerateRepository.get_marital_status", return_value=None)
+async def test_when_marital_status_invalid_then_raises(mock_get_marital_status, enumerate_service):
+    with pytest.raises(InvalidMaritalStatus):
+        await enumerate_service._validate_marital_status()

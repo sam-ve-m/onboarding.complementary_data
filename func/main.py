@@ -1,4 +1,5 @@
 # Jormungandr - Onboarding
+from src.domain.exceptions import UserUniqueIdNotExists, ErrorOnUpdateUser, ErrorOnDecodeJwt, ErrorOnSendAuditLog
 from src.domain.enums.code import InternalCode
 from src.domain.response.model import ResponseModel
 from src.domain.validator import ComplementaryData
@@ -30,6 +31,34 @@ async def user_complementary_data():
             message="User complementary data successfully updated",
             code=InternalCode.SUCCESS
         ).build_http_response(status=HTTPStatus.OK)
+        return response
+
+    except ErrorOnDecodeJwt as ex:
+        Gladsheim.error(error=ex, message=ex.msg)
+        response = ResponseModel(
+            success=False, code=InternalCode.JWT_INVALID, message=msg_error
+        ).build_http_response(status=HTTPStatus.UNAUTHORIZED)
+        return response
+
+    except UserUniqueIdNotExists as ex:
+        Gladsheim.error(error=ex, message=ex.msg)
+        response = ResponseModel(
+            success=False, code=InternalCode.DATA_NOT_FOUND, message=msg_error
+        ).build_http_response(status=HTTPStatus.INTERNAL_SERVER_ERROR)
+        return response
+
+    except ErrorOnUpdateUser as ex:
+        Gladsheim.error(error=ex, message=ex.msg)
+        response = ResponseModel(
+            success=False, code=InternalCode.INTERNAL_SERVER_ERROR, message=msg_error
+        ).build_http_response(status=HTTPStatus.INTERNAL_SERVER_ERROR)
+        return response
+
+    except ErrorOnSendAuditLog as ex:
+        Gladsheim.error(error=ex, message=ex.msg)
+        response = ResponseModel(
+            success=False, code=InternalCode.INTERNAL_SERVER_ERROR, message=msg_error
+        ).build_http_response(status=HTTPStatus.INTERNAL_SERVER_ERROR)
         return response
 
     except ValueError:

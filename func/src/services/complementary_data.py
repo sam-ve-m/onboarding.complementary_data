@@ -14,7 +14,10 @@ class ComplementaryDataService:
         await self._validate_cpf_is_not_the_same()
         user_complementary_data = await self.complementary_data_model.get_user_update_template()
         await Audit.register_log(complementary_data_model=self.complementary_data_model)
-        user_updated = await UserRepository.update_one_with_user_complementary_data(unique_id=self.unique_id, user_complementary_data=user_complementary_data)
+        user_updated = await UserRepository.update_one_with_user_complementary_data(
+            unique_id=self.unique_id,
+            user_complementary_data=user_complementary_data
+        )
         if not user_updated.acknowledged:
             raise ErrorOnUpdateUser
         return True
@@ -28,11 +31,7 @@ class ComplementaryDataService:
     async def _validate_cpf_is_not_the_same(self) -> bool:
         user = await self._get_user()
         user_cpf = user["identifier_document"].get("cpf")
-        if self.complementary_data_model.spouse is not None:
-            spouse_cpf = self.complementary_data_model.spouse.cpf
-            if user_cpf == spouse_cpf:
-                raise InvalidSpouseCpf
+        if self.complementary_data_model.spouse is not None\
+                and self.complementary_data_model.spouse.cpf == user_cpf:
+            raise InvalidSpouseCpf
         return True
-
-
-
