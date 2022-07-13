@@ -1,16 +1,8 @@
 # Standards
-import asyncio
-from hashlib import sha1
-from typing import List, Optional
+from typing import List
 
 # SPHINX
-# from .base_repository import OracleBaseRepository
-from func.src.repositories.oracle.base_repository import OracleBaseRepository
-
-# # # Third party
-# # import nest_asyncio
-#
-# nest_asyncio.apply()
+from .base_repository import OracleBaseRepository
 
 
 class EnumerateRepository(OracleBaseRepository):
@@ -58,24 +50,3 @@ class EnumerateRepository(OracleBaseRepository):
         tuple_result = await cls.query(sql=sql)
 
         return tuple_result
-
-    # @classmethod
-    # async def query_with_cache(cls, sql: str) -> list:
-    #     _sha1 = sha1()
-    #     _sha1.update(str(sql).encode())
-    #     partial_key = _sha1.hexdigest()
-    #     key = f"sinacor_types:{partial_key}"
-    #     value = await cls.cache.get(key=key)
-    #     if not value:
-    #         partial_value = await cls.query(sql=sql)
-    #         value = {"value": partial_value}
-    #         await cls.cache.set(key=key, value=value, ttl=86400)
-    #
-    #     value = value.get("value")
-    #     return value
-
-
-if __name__ == "__main__":
-    import asyncio
-    a = asyncio.run(EnumerateRepository.get_marital_status(code=2))
-    print(a)

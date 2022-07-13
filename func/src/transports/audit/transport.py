@@ -13,7 +13,7 @@ class Audit:
     audit_client = Persephone
     partition = QueueTypes.USER_COMPLEMENTARY_DATA
     topic = config("PERSEPHONE_TOPIC_USER")
-    schema_name = config("PERSEPHONE_USER_SELFIE")
+    schema_name = config("PERSEPHONE_COMPLEMENTARY_DATA_SCHEMA")
 
     @classmethod
     async def register_log(cls, complementary_data_model: ComplementaryDataModel):

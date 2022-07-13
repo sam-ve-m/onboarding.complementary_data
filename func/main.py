@@ -15,7 +15,7 @@ from etria_logger import Gladsheim
 from flask import request
 
 
-async def user_complementary_data():
+async def complementary_data():
     jwt = request.headers.get("x-thebes-answer")
     raw_complementary_data = request.json
     unique_id = await JwtService.decode_jwt_and_get_unique_id(jwt=jwt)
