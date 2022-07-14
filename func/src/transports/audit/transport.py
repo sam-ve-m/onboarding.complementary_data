@@ -11,7 +11,7 @@ from persephone_client import Persephone
 
 class Audit:
     audit_client = Persephone
-    partition = QueueTypes.USER_COMPLEMENTARY_DATA
+    partition = QueueTypes.USER_COMPLEMENTARY_DATA.value
     topic = config("PERSEPHONE_TOPIC_USER")
     schema_name = config("PERSEPHONE_COMPLEMENTARY_DATA_SCHEMA")
 

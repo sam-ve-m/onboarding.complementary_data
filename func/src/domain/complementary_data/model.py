@@ -60,7 +60,12 @@ class ComplementaryDataModel:
         }
 
     async def get_audit_template(self) -> dict:
-        return {
+        spouse = self.spouse.to_dict() if self.spouse is not None else None
+        template = {
             "unique_id": self.unique_id,
-            "marital": self.marital_status,
+            "marital": {
+                "status": self.marital_status,
+                "spouse": spouse
+            }
         }
+        return template
