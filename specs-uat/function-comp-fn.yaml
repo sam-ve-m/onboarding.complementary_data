@@ -1,14 +1,14 @@
 include:
 - ./func/*
 kind: ArchiveUploadSpec
-name: func-T91s
+name: func-cacW
 
 ---
 apiVersion: fission.io/v1
 kind: Package
 metadata:
   creationTimestamp: null
-  name: comp-fn-325cdbf1-cf99-4484-aa43-55b7153c1844
+  name: comp-fn-cea270c3-f578-4996-b7f6-46b36ad760e9
   namespace: default
 spec:
   deployment:
@@ -19,10 +19,10 @@ spec:
   source:
     checksum: {}
     type: url
-    url: archive://func-T91s
+    url: archive://func-cacW
 status:
   buildstatus: pending
-  lastUpdateTimestamp: "2022-07-14T15:41:37Z"
+  lastUpdateTimestamp: "2022-07-18T15:02:22Z"
 
 ---
 apiVersion: fission.io/v1
@@ -49,7 +49,7 @@ spec:
   package:
     functionName: main.complementary_data
     packageref:
-      name: comp-fn-325cdbf1-cf99-4484-aa43-55b7153c1844
+      name: comp-fn-cea270c3-f578-4996-b7f6-46b36ad760e9
       namespace: default
   requestsPerPod: 1
   resources: {}

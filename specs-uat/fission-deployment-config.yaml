@@ -4,4 +4,4 @@
 apiVersion: fission.io/v1
 kind: DeploymentConfig
 name: onboarding-complementary-data
-uid: d1bd3bc1-f9ca-4bd7-842b-c311e2ed2f32
+uid: b701ad03-842f-4bf5-a315-6df4ad562e7c

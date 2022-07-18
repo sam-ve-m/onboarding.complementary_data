@@ -12,12 +12,9 @@ from http import HTTPStatus
 
 # Third party
 from etria_logger import Gladsheim
-from flask import request, Flask
-
-app = Flask(__name__)
+from flask import request
 
 
-@app.route('/onboarding/complementary-data', methods=["POST"])
 async def complementary_data():
     jwt = request.headers.get("x-thebes-answer")
     raw_complementary_data = request.json
@@ -47,7 +44,7 @@ async def complementary_data():
         Gladsheim.error(error=ex, message=ex.msg)
         response = ResponseModel(
             success=False, code=InternalCode.DATA_NOT_FOUND, message=msg_error
-        ).build_http_response(status=HTTPStatus.INTERNAL_SERVER_ERROR)
+        ).build_http_response(status=HTTPStatus.UNAUTHORIZED)
         return response
 
     except ErrorOnUpdateUser as ex:
@@ -76,7 +73,4 @@ async def complementary_data():
             success=False, code=InternalCode.INTERNAL_SERVER_ERROR, message=msg_error
         ).build_http_response(status=HTTPStatus.INTERNAL_SERVER_ERROR)
         return response
-
-
-app.run(debug=True)
 
