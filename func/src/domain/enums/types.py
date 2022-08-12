@@ -1,4 +1,7 @@
+# Standards
 from enum import IntEnum
+
+# Third party
 from strenum import StrEnum
 
 

@@ -15,11 +15,7 @@ class SpouseModel:
         self.cpf = cpf
 
     def to_dict(self):
-        spouse = {
-                "name": self.name,
-                "nationality": self.nationality,
-                "cpf": self.cpf
-        }
+        spouse = {"name": self.name, "nationality": self.nationality, "cpf": self.cpf}
         return spouse
 
 
@@ -46,7 +42,10 @@ class ComplementaryDataModel:
         if not foreign_account_tax:
             return foreign_account_tax
         tax_residence_list = [
-            TaxResidenceModel(country=tax_residence.get("country"), tax_number=tax_residence.get("tax_number"))
+            TaxResidenceModel(
+                country=tax_residence.get("country"),
+                tax_number=tax_residence.get("tax_number"),
+            )
             for tax_residence in foreign_account_tax
         ]
         return tax_residence_list
@@ -64,9 +63,6 @@ class ComplementaryDataModel:
         spouse = self.spouse.to_dict() if self.spouse is not None else None
         template = {
             "unique_id": self.unique_id,
-            "marital": {
-                "status": self.marital_status,
-                "spouse": spouse
-            }
+            "marital": {"status": self.marital_status, "spouse": spouse},
         }
         return template

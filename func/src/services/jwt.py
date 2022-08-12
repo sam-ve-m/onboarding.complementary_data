@@ -1,9 +1,11 @@
 # Jormungandr-Onboarding
-from ..domain.exceptions import ErrorOnDecodeJwt, ErrorOnGetUniqueId
+from ..domain.exceptions.exceptions import ErrorOnDecodeJwt, ErrorOnGetUniqueId
 
 # Third party
 from heimdall_client import Heimdall
-from heimdall_client.src.domain.enums.heimdall_status_responses import HeimdallStatusResponses
+from heimdall_client.src.domain.enums.heimdall_status_responses import (
+    HeimdallStatusResponses,
+)
 
 
 class JwtService:

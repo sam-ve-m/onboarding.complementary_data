@@ -1,6 +1,9 @@
 # Jormungandr - Onboarding
-from ...domain.exceptions import InternalServerError
+from ...domain.exceptions.exceptions import InternalServerError
 from ...infrastructures.oracle.infrastrucuture import OracleInfrastructure
+
+# Standards
+from typing import List, Union
 
 # Third Party
 from etria_logger import Gladsheim
@@ -12,10 +15,10 @@ class OracleBaseRepository:
     infra = OracleInfrastructure
 
     @classmethod
-    async def query(cls, sql: str) -> list:
+    async def query(cls, sql: str, filters: List[Union[str, int]]) -> list:
         try:
             async with cls.infra.get_connection() as cursor:
-                await cursor.execute(sql)
+                await cursor.execute(sql, filters)
                 rows = await cursor.fetchall()
                 return rows
 

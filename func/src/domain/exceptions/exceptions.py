@@ -1,16 +1,22 @@
 class ErrorOnDecodeJwt(Exception):
-    msg = "Jormungandr-Onboarding::decode_jwt_and_get_unique_id::Fail when trying to get unique id," \
-          " jwt not decoded successfully"
+    msg = (
+        "Jormungandr-Onboarding::decode_jwt_and_get_unique_id::Fail when trying to get unique id,"
+        " jwt not decoded successfully"
+    )
 
 
 class ErrorOnSendAuditLog(Exception):
-    msg = "Jormungandr-Onboarding::update_user_with_complementary_data::Error when trying to send log audit on " \
-          "Persephone"
+    msg = (
+        "Jormungandr-Onboarding::update_user_with_complementary_data::Error when trying to send log audit on "
+        "Persephone"
+    )
 
 
 class ErrorOnUpdateUser(Exception):
-    msg = "Jormungandr-Onboarding::update_user_with_complementary_data::Error on trying to update user in mongo_db::" \
-          "User not exists, or unique_id invalid"
+    msg = (
+        "Jormungandr-Onboarding::update_user_with_complementary_data::Error on trying to update user in mongo_db::"
+        "User not exists, or unique_id invalid"
+    )
 
 
 class InvalidNationality(ValueError):
@@ -50,4 +56,3 @@ class InvalidOnboardingCurrentStep(Exception):
 
 class ErrorOnGetUniqueId(Exception):
     msg = "Jormungandr-Onboarding::get_unique_id::Fail when trying to get unique_id"
-

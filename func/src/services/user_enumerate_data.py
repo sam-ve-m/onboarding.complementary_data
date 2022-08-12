@@ -1,5 +1,9 @@
 # Jormungandr
-from ..domain.exceptions import InvalidNationality, InvalidMaritalStatus, InvalidCountryAcronym
+from ..domain.exceptions.exceptions import (
+    InvalidNationality,
+    InvalidMaritalStatus,
+    InvalidCountryAcronym,
+)
 from ..repositories.oracle.repository import EnumerateRepository
 
 
@@ -18,7 +22,9 @@ class EnumerateService:
         if not spouse:
             return True
         nationality_code = spouse.get("nationality")
-        result = await EnumerateRepository.get_nationality(code=nationality_code)
+        result = await EnumerateRepository.get_nationality(
+            nationality_code=nationality_code
+        )
         if not result:
             raise InvalidNationality
         return True
@@ -29,14 +35,16 @@ class EnumerateService:
             return True
         for tax_residence in foreign_account_tax:
             country_acronym = tax_residence.get("country")
-            result = await EnumerateRepository.get_country(country_acronym=country_acronym)
+            result = await EnumerateRepository.get_country(
+                country_acronym=country_acronym
+            )
             if not result:
                 raise InvalidCountryAcronym
         return True
 
     async def _validate_marital_status(self) -> bool:
-        code = self.complementary_data.get("marital_status")
-        result = await EnumerateRepository.get_marital_status(code=code)
+        marital_code = self.complementary_data.get("marital_status")
+        result = await EnumerateRepository.get_marital_status(marital_code=marital_code)
         if not result:
             raise InvalidMaritalStatus
         return True
