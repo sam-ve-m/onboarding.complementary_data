@@ -36,5 +36,18 @@ class InternalServerError(Exception):
     msg = "Jormungandr-Onboarding::OracleBaseRepository::Oracle Internal Server Error"
 
 
-class UserUniqueIdNotExists(Exception):
+class UserNotFound(Exception):
     msg = "Jormungandr-Onboarding::_get_user::Not exists an user with this unique_id"
+
+
+class OnboardingStepsStatusCodeNotOk(Exception):
+    msg = "Jormungandr-Onboarding::get_user_current_step::Error when trying to get onboarding steps br"
+
+
+class InvalidOnboardingCurrentStep(Exception):
+    msg = "Jormungandr-Onboarding::validate_current_onboarding_step::User is not in the electronic signature step"
+
+
+class ErrorOnGetUniqueId(Exception):
+    msg = "Jormungandr-Onboarding::get_unique_id::Fail when trying to get unique_id"
+

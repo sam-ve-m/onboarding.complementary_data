@@ -1,4 +1,5 @@
 from enum import IntEnum
+from strenum import StrEnum
 
 
 class QueueTypes(IntEnum):
@@ -6,3 +7,7 @@ class QueueTypes(IntEnum):
 
     def __repr__(self):
         return self.value
+
+
+class UserOnboardingStep(StrEnum):
+    COMPLEMENTARY_DATA = "complementary_data"

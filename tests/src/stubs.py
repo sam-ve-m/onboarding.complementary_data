@@ -1,5 +1,5 @@
 # Jormungandr - Onboarding
-from func.src.domain.validator import ComplementaryData
+from func.src.domain.validators.validator import ComplementaryData
 
 
 class UserUpdated:

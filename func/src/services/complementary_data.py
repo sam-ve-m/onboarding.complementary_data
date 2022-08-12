@@ -1,5 +1,5 @@
 from ..repositories.mongo_db.user.repository import UserRepository
-from ..domain.exceptions import UserUniqueIdNotExists
+from ..domain.exceptions import UserNotFound
 from ..domain.complementary_data.model import ComplementaryDataModel
 from ..transports.audit.transport import Audit
 from ..domain.exceptions import ErrorOnUpdateUser, InvalidSpouseCpf
@@ -9,6 +9,13 @@ class ComplementaryDataService:
     def __init__(self, unique_id, complementary_data_validated):
         self.unique_id = unique_id
         self.complementary_data_model = ComplementaryDataModel(complementary_data_validated=complementary_data_validated, unique_id=unique_id)
+
+    @staticmethod
+    async def validate_current_onboarding_step(jwt: str) -> bool:
+        user_current_step = await OnboardingSteps.get_user_current_step(jwt=jwt)
+        if not user_current_step == UserOnboardingStep.SELFIE:
+            raise InvalidOnboardingCurrentStep
+        return True
 
     async def update_user_with_complementary_data(self) -> bool:
         await self._validate_cpf_is_not_the_same()
@@ -25,7 +32,7 @@ class ComplementaryDataService:
     async def _get_user(self) -> dict:
         user = await UserRepository.find_one_by_unique_id(unique_id=self.unique_id)
         if not user:
-            raise UserUniqueIdNotExists
+            raise UserNotFound
         return user
 
     async def _validate_cpf_is_not_the_same(self) -> bool:

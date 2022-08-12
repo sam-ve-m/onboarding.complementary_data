@@ -19,17 +19,17 @@ class Spouse(BaseModel):
     @validator("cpf", always=True, allow_reuse=True)
     def validate_cpf(cls, cpf: str):
         cpf_last_digits = cpf[:-2]
-        cont_reversed = 10
+        reversed_count = 10
         total = 0
 
         for index in range(19):
             if index > 8:
                 index -= 9
-            total += int(cpf_last_digits[index]) * cont_reversed
-            cont_reversed -= 1
+            total += int(cpf_last_digits[index]) * reversed_count
+            reversed_count -= 1
 
-            if cont_reversed < 2:
-                cont_reversed = 11
+            if reversed_count < 2:
+                reversed_count = 11
                 digits = 11 - (total % 11)
 
                 if digits > 9:

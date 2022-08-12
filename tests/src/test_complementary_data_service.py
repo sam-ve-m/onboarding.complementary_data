@@ -1,5 +1,5 @@
 # Jormungandr - Onboarding
-from func.src.domain.exceptions import UserUniqueIdNotExists, InvalidSpouseCpf, ErrorOnUpdateUser
+from func.src.domain.exceptions import UserNotFound, InvalidSpouseCpf, ErrorOnUpdateUser
 from func.src.services.complementary_data import ComplementaryDataService
 from tests.src.stubs import stub_unique_id, stub_user, stub_user_same_cpf,stub_user_updated, stub_user_not_updated
 
@@ -29,7 +29,7 @@ async def test_when_get_valid_user_then_mock_was_called(mock_get_user, comp_data
 @pytest.mark.asyncio
 @patch('func.src.services.complementary_data.UserRepository.find_one_by_unique_id', return_value=None)
 async def test_when_get_valid_user_then_raises(mock_get_user, comp_data_service):
-    with pytest.raises(UserUniqueIdNotExists):
+    with pytest.raises(UserNotFound):
         await comp_data_service._get_user()
 
 

@@ -1,6 +1,6 @@
 # Jormungandr - Onboarding
 from func.src.services.complementary_data import ComplementaryDataService
-from func.src.services.enumerate import EnumerateService
+from func.src.services.user_enumerate_data import EnumerateService
 from tests.src.stubs import stub_comp_data_only_mandatory_validated, stub_comp_data_with_optionals_validated, stub_unique_id
 
 # Third party
