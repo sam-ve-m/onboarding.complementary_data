@@ -14,10 +14,10 @@ spec:
   ingressconfig:
     annotations: null
     host: '*'
-    path: /onboarding/complementary-data
+    path: /onboarding/complementary_data
     tls: ""
   method: ""
   methods:
   - POST
   prefix: ""
-  relativeurl: /onboarding/complementary-data
+  relativeurl: /onboarding/complementary_data
