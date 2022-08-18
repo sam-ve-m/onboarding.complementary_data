@@ -1,4 +1,5 @@
 # Jormungandr
+from ..domain.validators.validator import ComplementaryData
 from ..domain.exceptions.exceptions import (
     InvalidNationality,
     InvalidMaritalStatus,
@@ -8,7 +9,7 @@ from ..repositories.oracle.repository import EnumerateRepository
 
 
 class EnumerateService:
-    def __init__(self, complementary_data_validated: dict):
+    def __init__(self, complementary_data_validated: ComplementaryData):
         self.complementary_data = complementary_data_validated
 
     async def validate_enumerate_params(self) -> bool:
@@ -18,10 +19,10 @@ class EnumerateService:
         return True
 
     async def _validate_nationality(self) -> bool:
-        spouse = self.complementary_data.get("spouse")
+        spouse = self.complementary_data.spouse
         if not spouse:
             return True
-        nationality_code = spouse.get("nationality")
+        nationality_code = spouse.nationality
         result = await EnumerateRepository.get_nationality(
             nationality_code=nationality_code
         )
@@ -30,11 +31,11 @@ class EnumerateService:
         return True
 
     async def _validate_country_acronym(self) -> bool:
-        foreign_account_tax = self.complementary_data.get("foreign_account_tax")
+        foreign_account_tax = self.complementary_data.foreign_account_tax
         if not foreign_account_tax:
             return True
         for tax_residence in foreign_account_tax:
-            country_acronym = tax_residence.get("country")
+            country_acronym = tax_residence.country
             result = await EnumerateRepository.get_country(
                 country_acronym=country_acronym
             )
@@ -43,7 +44,7 @@ class EnumerateService:
         return True
 
     async def _validate_marital_status(self) -> bool:
-        marital_code = self.complementary_data.get("marital_status")
+        marital_code = self.complementary_data.marital_status
         result = await EnumerateRepository.get_marital_status(marital_code=marital_code)
         if not result:
             raise InvalidMaritalStatus

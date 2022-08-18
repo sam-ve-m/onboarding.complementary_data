@@ -6,7 +6,7 @@ from func.src.domain.exceptions.exceptions import (
     InvalidOnboardingCurrentStep,
 )
 from func.src.services.complementary_data import ComplementaryDataService
-from tests.src.stubs import (
+from tests.src.services.complementary_data.stubs import (
     stub_unique_id,
     stub_user,
     stub_user_same_cpf,
@@ -85,7 +85,7 @@ async def test_when_same_cpf_user_then_raises(mock_get_user, comp_data_service):
     "func.src.services.complementary_data.UserRepository.update_one_with_user_complementary_data",
     return_value=stub_user_updated,
 )
-@patch("func.src.services.complementary_data.Audit.send_audit_log")
+@patch("func.src.services.complementary_data.Audit.record_message_log")
 @patch.object(ComplementaryDataService, "_validate_cpf_is_not_the_same")
 async def test_when_update_user_success_then_return_true(
     mock_validate_cpf, mock_audit, mock_update, comp_data_service
@@ -100,7 +100,7 @@ async def test_when_update_user_success_then_return_true(
     "func.src.services.complementary_data.UserRepository.update_one_with_user_complementary_data",
     return_value=stub_user_updated,
 )
-@patch("func.src.services.complementary_data.Audit.send_audit_log")
+@patch("func.src.services.complementary_data.Audit.record_message_log")
 @patch.object(ComplementaryDataService, "_validate_cpf_is_not_the_same")
 async def test_when_update_user_success_then_mock_was_called(
     mock_validate_cpf, mock_audit, mock_update, comp_data_service
@@ -124,7 +124,7 @@ async def test_when_update_user_success_then_mock_was_called(
     "func.src.services.complementary_data.UserRepository.update_one_with_user_complementary_data",
     return_value=stub_user_not_updated,
 )
-@patch("func.src.services.complementary_data.Audit.send_audit_log")
+@patch("func.src.services.complementary_data.Audit.record_message_log")
 @patch.object(ComplementaryDataService, "_validate_cpf_is_not_the_same")
 async def test_when_update_user_fail_then_raises(
     mock_validate_cpf, mock_audit, mock_update, comp_data_service

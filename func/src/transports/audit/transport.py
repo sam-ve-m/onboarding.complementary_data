@@ -13,9 +13,9 @@ class Audit:
     audit_client = Persephone
 
     @classmethod
-    async def send_audit_log(cls, complementary_data_model: ComplementaryDataModel):
+    async def record_message_log(cls, complementary_data_model: ComplementaryDataModel):
         message = await complementary_data_model.get_audit_template()
-        partition = QueueTypes.USER_COMPLEMENTARY_DATA.value
+        partition = QueueTypes.USER_COMPLEMENTARY_DATA
         topic = config("PERSEPHONE_TOPIC_USER")
         schema_name = config("PERSEPHONE_COMPLEMENTARY_DATA_SCHEMA")
         (
@@ -32,3 +32,4 @@ class Audit:
                 message="Audit::register_user_log::Error on trying to register log"
             )
             raise ErrorOnSendAuditLog
+        return True

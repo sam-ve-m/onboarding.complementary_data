@@ -1,4 +1,5 @@
 # Jormungandr - Onboarding
+from func.src.domain.complementary_data.model import ComplementaryDataModel
 from func.src.domain.validators.validator import ComplementaryData
 
 
@@ -28,7 +29,15 @@ stub_user_not_updated = UserUpdated(matched_count=0)
 stub_user_updated = UserUpdated(matched_count=1)
 stub_comp_data_only_mandatory_validated = ComplementaryData(
     **stub_raw_comp_data_only_mandatory
-).dict()
+)
 stub_comp_data_with_optionals_validated = ComplementaryData(
     **stub_raw_comp_data_with_optionals
-).dict()
+)
+stub_comp_data_model = ComplementaryDataModel(
+    complementary_data_validated=stub_comp_data_with_optionals_validated,
+    unique_id=stub_unique_id
+)
+stub_comp_data_model_mandatory = ComplementaryDataModel(
+    complementary_data_validated=stub_comp_data_only_mandatory_validated,
+    unique_id=stub_unique_id
+)

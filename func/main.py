@@ -29,18 +29,19 @@ async def complementary_data() -> Response:
     msg_error = "Unexpected error occurred"
     try:
         unique_id = await JwtService.decode_jwt_and_get_unique_id(jwt=jwt)
+
         complementary_data_validated = ComplementaryData(
             **raw_complementary_data
-        ).dict()
+        )
         complementary_data_service = ComplementaryDataService(
             unique_id=unique_id,
             complementary_data_validated=complementary_data_validated,
         )
+        await complementary_data_service.validate_current_onboarding_step(jwt=jwt)
         enumerate_service = EnumerateService(
             complementary_data_validated=complementary_data_validated
         )
         await enumerate_service.validate_enumerate_params()
-        await complementary_data_service.validate_current_onboarding_step(jwt=jwt)
         success = await complementary_data_service.update_user_with_complementary_data()
         response = ResponseModel(
             success=success,

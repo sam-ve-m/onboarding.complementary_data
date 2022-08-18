@@ -1,4 +1,5 @@
 # Jormungandr - Onboarding
+from ..domain.validators.validator import ComplementaryData
 from ..domain.enums.types import UserOnboardingStep
 from ..repositories.mongo_db.user.repository import UserRepository
 from ..domain.exceptions.exceptions import (
@@ -13,7 +14,7 @@ from ..transports.onboarding_steps.transport import OnboardingSteps
 
 
 class ComplementaryDataService:
-    def __init__(self, unique_id, complementary_data_validated):
+    def __init__(self, unique_id, complementary_data_validated: ComplementaryData):
         self.unique_id = unique_id
         self.complementary_data_model = ComplementaryDataModel(
             complementary_data_validated=complementary_data_validated,
@@ -32,7 +33,7 @@ class ComplementaryDataService:
         user_complementary_data = (
             await self.complementary_data_model.get_user_update_template()
         )
-        await Audit.send_audit_log(
+        await Audit.record_message_log(
             complementary_data_model=self.complementary_data_model
         )
         user_updated = await UserRepository.update_one_with_user_complementary_data(

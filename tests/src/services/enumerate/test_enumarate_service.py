@@ -137,3 +137,22 @@ async def test_when_marital_status_invalid_then_raises(
 ):
     with pytest.raises(InvalidMaritalStatus):
         await enumerate_service._validate_marital_status()
+
+
+@pytest.mark.asyncio
+@patch(
+    "func.src.services.user_enumerate_data.EnumerateRepository.get_marital_status",
+    return_value=True,
+)
+@patch(
+    "func.src.services.user_enumerate_data.EnumerateRepository.get_country",
+    return_value=True,
+)
+@patch(
+    "func.src.services.user_enumerate_data.EnumerateRepository.get_nationality",
+    return_value=True,
+)
+async def test_when_all_valid_params_then_return_true(mock_nationality, mock_country, mock_marital, enumerate_service):
+    result = await enumerate_service.validate_enumerate_params()
+
+    assert result is True

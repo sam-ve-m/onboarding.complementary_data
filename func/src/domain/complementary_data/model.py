@@ -1,3 +1,6 @@
+# Jormungandr - Onboarding
+from ..validators.validator import ComplementaryData
+
 # Standards
 from typing import List
 
@@ -14,37 +17,37 @@ class SpouseModel:
         self.nationality = nationality
         self.cpf = cpf
 
-    def to_dict(self):
+    def to_dict(self) -> dict:
         spouse = {"name": self.name, "nationality": self.nationality, "cpf": self.cpf}
         return spouse
 
 
 class ComplementaryDataModel:
-    def __init__(self, complementary_data_validated, unique_id):
+    def __init__(self, complementary_data_validated: ComplementaryData, unique_id: str):
         self.unique_id = unique_id
         self.complementary_data = complementary_data_validated
         self.spouse = self._create_spouse_composition()
         self.foreign_account_tax = self._create_foreign_account_tax_composition()
-        self.marital_status = complementary_data_validated.get("marital_status")
+        self.marital_status = complementary_data_validated.marital_status
 
-    def _create_spouse_composition(self) -> SpouseModel:
-        spouse = self.complementary_data.get("spouse", None)
+    def _create_spouse_composition(self) -> SpouseModel | None:
+        spouse = self.complementary_data.spouse
         if not spouse:
             return spouse
-        name = spouse.get("name")
-        nationality = spouse.get("nationality")
-        cpf = spouse.get("cpf")
+        name = spouse.name
+        nationality = spouse.nationality
+        cpf = spouse.cpf
         spouse_model = SpouseModel(name=name, nationality=nationality, cpf=cpf)
         return spouse_model
 
-    def _create_foreign_account_tax_composition(self) -> List[TaxResidenceModel]:
-        foreign_account_tax = self.complementary_data.get("foreign_account_tax", None)
+    def _create_foreign_account_tax_composition(self) -> List[TaxResidenceModel] | None:
+        foreign_account_tax = self.complementary_data.foreign_account_tax
         if not foreign_account_tax:
             return foreign_account_tax
         tax_residence_list = [
             TaxResidenceModel(
-                country=tax_residence.get("country"),
-                tax_number=tax_residence.get("tax_number"),
+                country=tax_residence.country,
+                tax_number=tax_residence.tax_number,
             )
             for tax_residence in foreign_account_tax
         ]
@@ -52,12 +55,13 @@ class ComplementaryDataModel:
 
     async def get_user_update_template(self) -> dict:
         spouse = self.spouse.to_dict() if self.spouse is not None else None
-        return {
+        template = {
             "marital": {
                 "status": self.marital_status,
                 "spouse": spouse,
             }
         }
+        return template
 
     async def get_audit_template(self) -> dict:
         spouse = self.spouse.to_dict() if self.spouse is not None else None
