@@ -2,7 +2,7 @@
 from ..validators.validator import ComplementaryData
 
 # Standards
-from typing import List
+from typing import List, Union
 
 
 class TaxResidenceModel:
@@ -40,9 +40,9 @@ class ComplementaryDataModel:
         spouse_model = SpouseModel(name=name, nationality=nationality, cpf=cpf)
         return spouse_model
 
-    def _create_foreign_account_tax_composition(self) -> List[TaxResidenceModel] | None:
+    def _create_foreign_account_tax_composition(self) -> Union[List[TaxResidenceModel], None]:
         foreign_account_tax = self.complementary_data.foreign_account_tax
-        if not foreign_account_tax:
+        if foreign_account_tax is None:
             return foreign_account_tax
         tax_residence_list = [
             TaxResidenceModel(
@@ -54,7 +54,7 @@ class ComplementaryDataModel:
         return tax_residence_list
 
     async def get_user_update_template(self) -> dict:
-        spouse = self.spouse.to_dict() if self.spouse is not None else None
+        spouse = self.spouse.to_dict() if bool(self.spouse) else None
         template = {
             "marital": {
                 "status": self.marital_status,
@@ -64,7 +64,7 @@ class ComplementaryDataModel:
         return template
 
     async def get_audit_template(self) -> dict:
-        spouse = self.spouse.to_dict() if self.spouse is not None else None
+        spouse = self.spouse.to_dict() if bool(self.spouse) else None
         template = {
             "unique_id": self.unique_id,
             "marital": {"status": self.marital_status, "spouse": spouse},

@@ -53,7 +53,7 @@ class ComplementaryDataService:
         user = await self._get_user()
         user_cpf = user["identifier_document"].get("cpf")
         if (
-            self.complementary_data_model.spouse is not None
+            bool(self.complementary_data_model.spouse)
             and self.complementary_data_model.spouse.cpf == user_cpf
         ):
             raise InvalidSpouseCpf

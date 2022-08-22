@@ -60,8 +60,6 @@ async def test_when_get_valid_user_then_raises(mock_get_user, comp_data_service)
 async def test_when_valid_cpf_spouse_then_return_true(mock_get_user, comp_data_service):
     success = await comp_data_service._validate_cpf_is_not_the_same()
 
-    assert comp_data_service.complementary_data_model.spouse is not None
-    assert comp_data_service.complementary_data_model.spouse is not False
     assert success is True
 
 
