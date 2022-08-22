@@ -7,7 +7,6 @@ class UserUpdated:
     def __init__(self, matched_count=None):
         self.matched_count = matched_count
 
-
 stub_unique_id = "40db7fee-6d60-4d73-824f-1bf87edc4491"
 stub_user = {"identifier_document": {"cpf": "123456789"}}
 stub_user_same_cpf = {"identifier_document": {"cpf": "03895134074"}}
