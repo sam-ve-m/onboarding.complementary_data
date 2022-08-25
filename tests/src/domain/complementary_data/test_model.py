@@ -1,5 +1,8 @@
 # Jormungandr - Onboarding
-from tests.src.services.complementary_data.stubs import stub_comp_data_model_mandatory, stub_comp_data_model
+from tests.src.services.complementary_data.stubs import (
+    stub_comp_data_model_mandatory,
+    stub_comp_data_model,
+)
 
 # Third party
 import pytest
@@ -50,6 +53,8 @@ async def test_when_have_account_tax_then_return_expected_composition():
 
 @pytest.mark.asyncio
 async def test_when_not_have_account_tax_then_return_expected_composition():
-    tax_residence_list = stub_comp_data_model_mandatory._create_foreign_account_tax_composition()
+    tax_residence_list = (
+        stub_comp_data_model_mandatory._create_foreign_account_tax_composition()
+    )
 
     assert tax_residence_list is None

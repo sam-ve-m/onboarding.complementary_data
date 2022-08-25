@@ -152,7 +152,9 @@ async def test_when_marital_status_invalid_then_raises(
     "func.src.services.user_enumerate_data.EnumerateRepository.get_nationality",
     return_value=True,
 )
-async def test_when_all_valid_params_then_return_true(mock_nationality, mock_country, mock_marital, enumerate_service):
+async def test_when_all_valid_params_then_return_true(
+    mock_nationality, mock_country, mock_marital, enumerate_service
+):
     result = await enumerate_service.validate_enumerate_params()
 
     assert result is True

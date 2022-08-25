@@ -30,7 +30,7 @@ class ComplementaryDataModel:
         self.foreign_account_tax = self._create_foreign_account_tax_composition()
         self.marital_status = complementary_data_validated.marital_status
 
-    def _create_spouse_composition(self) -> SpouseModel | None:
+    def _create_spouse_composition(self) -> Union[SpouseModel, None]:
         spouse = self.complementary_data.spouse
         if not spouse:
             return spouse
@@ -40,7 +40,9 @@ class ComplementaryDataModel:
         spouse_model = SpouseModel(name=name, nationality=nationality, cpf=cpf)
         return spouse_model
 
-    def _create_foreign_account_tax_composition(self) -> Union[List[TaxResidenceModel], None]:
+    def _create_foreign_account_tax_composition(
+        self,
+    ) -> Union[List[TaxResidenceModel], None]:
         foreign_account_tax = self.complementary_data.foreign_account_tax
         if foreign_account_tax is None:
             return foreign_account_tax

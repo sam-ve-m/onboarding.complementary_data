@@ -7,6 +7,10 @@ from src.domain.exceptions.exceptions import (
     InvalidOnboardingCurrentStep,
     OnboardingStepsStatusCodeNotOk,
     ErrorOnGetUniqueId,
+    InvalidNationality,
+    InvalidMaritalStatus,
+    InvalidCountryAcronym,
+    InvalidSpouseCpf,
 )
 from src.domain.enums.code import InternalCode
 from src.domain.response.model import ResponseModel
@@ -30,9 +34,7 @@ async def complementary_data() -> Response:
     try:
         unique_id = await JwtService.decode_jwt_and_get_unique_id(jwt=jwt)
 
-        complementary_data_validated = ComplementaryData(
-            **raw_complementary_data
-        )
+        complementary_data_validated = ComplementaryData(**raw_complementary_data)
         complementary_data_service = ComplementaryDataService(
             unique_id=unique_id,
             complementary_data_validated=complementary_data_validated,
@@ -103,6 +105,18 @@ async def complementary_data() -> Response:
         response = ResponseModel(
             success=False, code=InternalCode.INTERNAL_SERVER_ERROR, message=msg_error
         ).build_http_response(status=HTTPStatus.INTERNAL_SERVER_ERROR)
+        return response
+
+    except (
+        InvalidMaritalStatus,
+        InvalidCountryAcronym,
+        InvalidNationality,
+        InvalidSpouseCpf,
+    ) as ex:
+        Gladsheim.info(error=ex)
+        response = ResponseModel(
+            success=False, code=InternalCode.INVALID_PARAMS, message="Invalid params"
+        ).build_http_response(status=HTTPStatus.BAD_REQUEST)
         return response
 
     except ValueError as ex:
