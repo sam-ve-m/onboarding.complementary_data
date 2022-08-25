@@ -43,17 +43,16 @@ class ComplementaryDataModel:
     def _create_foreign_account_tax_composition(
         self,
     ) -> Union[List[TaxResidenceModel], None]:
-        foreign_account_tax = self.complementary_data.foreign_account_tax
-        if foreign_account_tax is None:
-            return foreign_account_tax
-        tax_residence_list = [
-            TaxResidenceModel(
-                country=tax_residence.country,
-                tax_number=tax_residence.tax_number,
-            )
-            for tax_residence in foreign_account_tax
-        ]
-        return tax_residence_list
+        if foreign_account_tax := self.complementary_data.foreign_account_tax:
+            tax_residence_list = [
+                TaxResidenceModel(
+                    country=tax_residence.country,
+                    tax_number=tax_residence.tax_number,
+                )
+                for tax_residence in foreign_account_tax
+            ]
+            return tax_residence_list
+        return foreign_account_tax
 
     async def get_user_update_template(self) -> dict:
         spouse = self.spouse.to_dict() if bool(self.spouse) else None

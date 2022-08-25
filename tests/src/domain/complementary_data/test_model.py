@@ -57,4 +57,4 @@ async def test_when_not_have_account_tax_then_return_expected_composition():
         stub_comp_data_model_mandatory._create_foreign_account_tax_composition()
     )
 
-    assert tax_residence_list is None
+    assert not tax_residence_list
