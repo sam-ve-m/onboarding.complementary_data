@@ -52,3 +52,23 @@ class ComplementaryData(BaseModel):
     marital_status: int
     spouse: Optional[Spouse]
     foreign_account_tax: Optional[List[TaxResidence]]
+
+
+a = {
+
+    "marital_status": 1,
+
+    "spouse": {
+
+        "name": "Conjuge Cliente Cadastrado",
+
+        "cpf": "95919613599",
+
+        "nationality": 1
+
+    }
+
+}
+
+b = ComplementaryData(**a)
+print(b)

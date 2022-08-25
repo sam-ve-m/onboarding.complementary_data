@@ -16,7 +16,7 @@ from src.domain.enums.code import InternalCode
 from src.domain.response.model import ResponseModel
 from src.domain.validators.validator import ComplementaryData
 from src.services.jwt import JwtService
-from src.services.user_enumerate_data import EnumerateService
+from src.services.validate_rules import ValidateRulesService
 from src.services.complementary_data import ComplementaryDataService
 
 # Standards
@@ -29,22 +29,20 @@ from flask import request, Response
 
 async def complementary_data() -> Response:
     jwt = request.headers.get("x-thebes-answer")
-    raw_complementary_data = request.json
     msg_error = "Unexpected error occurred"
     try:
+        raw_payload = request.json
         unique_id = await JwtService.decode_jwt_and_get_unique_id(jwt=jwt)
-
-        complementary_data_validated = ComplementaryData(**raw_complementary_data)
-        complementary_data_service = ComplementaryDataService(
+        payload_validated = ComplementaryData(**raw_payload)
+        await ValidateRulesService(
+            payload_validated=payload_validated, 
+            unique_id=unique_id, 
+            jwt=jwt
+        ).apply_validate_rules_to_proceed()
+        success = await ComplementaryDataService.update_user_with_complementary_data(
             unique_id=unique_id,
-            complementary_data_validated=complementary_data_validated,
+            payload_validated=payload_validated
         )
-        await complementary_data_service.validate_current_onboarding_step(jwt=jwt)
-        enumerate_service = EnumerateService(
-            complementary_data_validated=complementary_data_validated
-        )
-        await enumerate_service.validate_enumerate_params()
-        success = await complementary_data_service.update_user_with_complementary_data()
         response = ResponseModel(
             success=success,
             message="User complementary data successfully updated",

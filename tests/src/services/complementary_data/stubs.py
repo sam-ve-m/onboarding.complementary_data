@@ -34,10 +34,10 @@ stub_comp_data_with_optionals_validated = ComplementaryData(
     **stub_raw_comp_data_with_optionals
 )
 stub_comp_data_model = ComplementaryDataModel(
-    complementary_data_validated=stub_comp_data_with_optionals_validated,
+    payload_validated=stub_comp_data_with_optionals_validated,
     unique_id=stub_unique_id,
 )
 stub_comp_data_model_mandatory = ComplementaryDataModel(
-    complementary_data_validated=stub_comp_data_only_mandatory_validated,
+    payload_validated=stub_comp_data_only_mandatory_validated,
     unique_id=stub_unique_id,
 )

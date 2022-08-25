@@ -23,12 +23,12 @@ class SpouseModel:
 
 
 class ComplementaryDataModel:
-    def __init__(self, complementary_data_validated: ComplementaryData, unique_id: str):
+    def __init__(self, payload_validated: ComplementaryData, unique_id: str):
         self.unique_id = unique_id
-        self.complementary_data = complementary_data_validated
+        self.complementary_data = payload_validated
         self.spouse = self._create_spouse_composition()
         self.foreign_account_tax = self._create_foreign_account_tax_composition()
-        self.marital_status = complementary_data_validated.marital_status
+        self.marital_status = payload_validated.marital_status
 
     def _create_spouse_composition(self) -> Union[SpouseModel, None]:
         spouse = self.complementary_data.spouse

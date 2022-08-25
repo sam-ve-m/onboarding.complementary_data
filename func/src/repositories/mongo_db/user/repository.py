@@ -20,7 +20,7 @@ class UserRepository(MongoDbBaseRepository):
 
     @classmethod
     async def update_one_with_user_complementary_data(
-        cls, unique_id: dict, user_complementary_data
+        cls, unique_id: str, user_complementary_data: dict
     ):
         collection = await cls._get_collection()
         try:
