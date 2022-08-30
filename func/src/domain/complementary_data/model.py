@@ -27,8 +27,8 @@ class ComplementaryDataModel:
         self.unique_id = unique_id
         self.complementary_data = payload_validated
         self.spouse = self._create_spouse_composition()
-        self.foreign_account_tax = self._create_foreign_account_tax_composition()
         self.marital_status = payload_validated.marital_status
+        self.origin = payload_validated.origin
 
     def _create_spouse_composition(self) -> Union[SpouseModel, None]:
         spouse = self.complementary_data.spouse
@@ -40,27 +40,14 @@ class ComplementaryDataModel:
         spouse_model = SpouseModel(name=name, nationality=nationality, cpf=cpf)
         return spouse_model
 
-    def _create_foreign_account_tax_composition(
-        self,
-    ) -> Union[List[TaxResidenceModel], None]:
-        if foreign_account_tax := self.complementary_data.foreign_account_tax:
-            tax_residence_list = [
-                TaxResidenceModel(
-                    country=tax_residence.country,
-                    tax_number=tax_residence.tax_number,
-                )
-                for tax_residence in foreign_account_tax
-            ]
-            return tax_residence_list
-        return foreign_account_tax
-
     async def get_user_update_template(self) -> dict:
         spouse = self.spouse.to_dict() if bool(self.spouse) else None
         template = {
             "marital": {
                 "status": self.marital_status,
                 "spouse": spouse,
-            }
+            },
+            "origin": self.origin
         }
         return template
 

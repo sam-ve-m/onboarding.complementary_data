@@ -49,9 +49,9 @@ class TaxResidence(BaseModel):
 
 
 class ComplementaryData(BaseModel):
+    origin: str = "LIGA"
     marital_status: int
     spouse: Optional[Spouse]
-    foreign_account_tax: Optional[List[TaxResidence]]
 
 
 a = {
