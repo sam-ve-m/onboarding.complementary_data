@@ -14,3 +14,8 @@ class QueueTypes(IntEnum):
 
 class UserOnboardingStep(StrEnum):
     COMPLEMENTARY_DATA = "complementary_data"
+
+
+class UserOrigins(StrEnum):
+    LIGA = "LIGA"
+

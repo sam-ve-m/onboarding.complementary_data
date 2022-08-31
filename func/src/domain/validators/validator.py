@@ -1,6 +1,6 @@
 # Standards
-from typing import Optional, List
 from re import sub
+from typing import Optional
 
 # Third party
 from pydantic import BaseModel, validator, constr
@@ -49,26 +49,5 @@ class TaxResidence(BaseModel):
 
 
 class ComplementaryData(BaseModel):
-    origin: str = "LIGA"
     marital_status: int
     spouse: Optional[Spouse]
-
-
-a = {
-
-    "marital_status": 1,
-
-    "spouse": {
-
-        "name": "Conjuge Cliente Cadastrado",
-
-        "cpf": "95919613599",
-
-        "nationality": 1
-
-    }
-
-}
-
-b = ComplementaryData(**a)
-print(b)

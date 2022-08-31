@@ -1,8 +1,9 @@
 # Jormungandr - Onboarding
+from ..enums.types import UserOrigins
 from ..validators.validator import ComplementaryData
 
 # Standards
-from typing import List, Union
+from typing import Union
 
 
 class TaxResidenceModel:
@@ -28,7 +29,6 @@ class ComplementaryDataModel:
         self.complementary_data = payload_validated
         self.spouse = self._create_spouse_composition()
         self.marital_status = payload_validated.marital_status
-        self.origin = payload_validated.origin
 
     def _create_spouse_composition(self) -> Union[SpouseModel, None]:
         spouse = self.complementary_data.spouse
@@ -47,7 +47,7 @@ class ComplementaryDataModel:
                 "status": self.marital_status,
                 "spouse": spouse,
             },
-            "origin": self.origin
+            "origin": UserOrigins.LIGA.value
         }
         return template
 

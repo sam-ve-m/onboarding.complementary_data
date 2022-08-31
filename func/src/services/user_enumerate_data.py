@@ -14,7 +14,6 @@ class EnumerateService:
 
     async def validate_enumerate_params(self) -> bool:
         await self._validate_nationality()
-        await self._validate_country_acronym()
         await self._validate_marital_status()
         return True
 
@@ -28,19 +27,6 @@ class EnumerateService:
         )
         if not result:
             raise InvalidNationality
-        return True
-
-    async def _validate_country_acronym(self) -> bool:
-        foreign_account_tax = self.complementary_data.foreign_account_tax
-        if not foreign_account_tax:
-            return True
-        for tax_residence in foreign_account_tax:
-            country_acronym = tax_residence.country
-            result = await EnumerateRepository.get_country(
-                country_acronym=country_acronym
-            )
-            if not result:
-                raise InvalidCountryAcronym
         return True
 
     async def _validate_marital_status(self) -> bool:
