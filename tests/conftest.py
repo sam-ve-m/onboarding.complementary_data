@@ -1,6 +1,6 @@
 # Jormungandr - Onboarding
-from func.src.services.complementary_data import ComplementaryDataService
 from func.src.services.user_enumerate_data import EnumerateService
+from src.services.validate_rules import ValidateRulesService
 from tests.src.services.complementary_data.stubs import (
     stub_comp_data_only_mandatory_validated,
     stub_comp_data_with_optionals_validated,
@@ -13,18 +13,20 @@ from pytest import fixture
 
 @fixture(scope="function")
 def comp_data_service():
-    service = ComplementaryDataService(
+    service = ValidateRulesService(
         unique_id=stub_unique_id,
-        complementary_data_validated=stub_comp_data_with_optionals_validated,
+        payload_validated=stub_comp_data_with_optionals_validated,
+        jwt="123",
     )
     return service
 
 
 @fixture(scope="function")
 def comp_data_service_only_mandatory():
-    service = ComplementaryDataService(
+    service = ValidateRulesService(
         unique_id=stub_unique_id,
-        complementary_data_validated=stub_comp_data_only_mandatory_validated,
+        payload_validated=stub_comp_data_only_mandatory_validated,
+        jwt="123",
     )
     return service
 
