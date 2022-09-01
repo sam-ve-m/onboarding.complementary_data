@@ -19,3 +19,10 @@ class UserOnboardingStep(StrEnum):
 class UserOrigins(StrEnum):
     LIGA = "LIGA"
 
+
+class BureauStatus(StrEnum):
+    APPROVED = "approved"
+    DOCUMENT = "document"
+    REFUSED = "refused"
+
+
