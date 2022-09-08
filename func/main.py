@@ -53,7 +53,7 @@ async def complementary_data() -> Response:
     except ErrorOnDecodeJwt as ex:
         Gladsheim.error(error=ex, message=ex.msg)
         response = ResponseModel(
-            success=False, code=InternalCode.JWT_INVALID, message=msg_error
+            success=False, code=InternalCode.JWT_INVALID, message="Unauthorized token"
         ).build_http_response(status=HTTPStatus.UNAUTHORIZED)
         return response
 
@@ -78,7 +78,7 @@ async def complementary_data() -> Response:
         response = ResponseModel(
             success=False,
             code=InternalCode.ONBOARDING_STEP_INCORRECT,
-            message="User is not in complementary_data step",
+            message="User is not in correct step",
         ).build_http_response(status=HTTPStatus.BAD_REQUEST)
         return response
 
