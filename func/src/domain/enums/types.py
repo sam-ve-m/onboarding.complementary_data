@@ -17,7 +17,7 @@ class UserOnboardingStep(StrEnum):
 
 
 class UserOrigins(StrEnum):
-    LIGA = "LIGA"
+    LIGA = "liga"
 
 
 class BureauStatus(StrEnum):
