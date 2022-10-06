@@ -13,7 +13,7 @@ stub_user = {"identifier_document": {"cpf": "123456789"}}
 stub_user_same_cpf = {"identifier_document": {"cpf": "03895134074"}}
 stub_raw_comp_data_with_optionals = {
     "marital_status": 1,
-    "spouse": {"name": "fulano", "nationality": 5, "cpf": "038.951.340-74"},
+    "spouse": {"name": "fulano ad", "nationality": 5, "cpf": "038.951.340-74"},
     "foreign_account_tax": [
         {"country": "BRA", "tax_number": "testeteste"},
         {"country": "EUA", "tax_number": "teste2teste2"},
