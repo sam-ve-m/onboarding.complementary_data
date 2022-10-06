@@ -6,8 +6,13 @@ from typing import Optional
 from pydantic import BaseModel, validator, constr
 
 
+char_with_space = "[a-zA-Z\sáéíóúãẽĩõũâêîôûÁÉÍÓÚÃẼĨÕŨÂÊÎÔÛç]"
+char_without_space = "[a-zA-ZáéíóúãẽĩõũâêîôûÁÉÍÓÚÃẼĨÕŨÂÊÎÔÛç]"
+name_regex = rf"^{char_without_space}+\s{char_without_space}{char_with_space}*$"
+
+
 class Spouse(BaseModel):
-    name: constr(min_length=1, max_length=100)
+    name: constr(regex=name_regex, max_length=60)
     nationality: int
     cpf: str
 
