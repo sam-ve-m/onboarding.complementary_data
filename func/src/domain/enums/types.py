@@ -1,7 +1,5 @@
-# Standards
 from enum import IntEnum
 
-# Third party
 from strenum import StrEnum
 
 
@@ -18,11 +16,3 @@ class UserOnboardingStep(StrEnum):
 
 class UserOrigins(StrEnum):
     LIGA = "liga"
-
-
-class BureauStatus(StrEnum):
-    APPROVED = "approved"
-    DOCUMENT = "document"
-    REFUSED = "refused"
-
-
