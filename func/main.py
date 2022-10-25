@@ -19,19 +19,17 @@ from src.services.jwt import JwtService
 from src.services.validate_rules import ValidateRulesService
 from src.services.complementary_data import ComplementaryDataService
 
-# Standards
 from http import HTTPStatus
+import flask
 
-# Third party
 from etria_logger import Gladsheim
-from flask import request, Response
 
 
-async def complementary_data() -> Response:
-    jwt = request.headers.get("x-thebes-answer")
+async def complementary_data() -> flask.Response:
+    jwt = flask.request.headers.get("x-thebes-answer")
     msg_error = "Unexpected error occurred"
     try:
-        raw_payload = request.json
+        raw_payload = flask.request.json
         unique_id = await JwtService.decode_jwt_and_get_unique_id(jwt=jwt)
         payload_validated = ComplementaryData(**raw_payload)
         await ValidateRulesService(
@@ -58,14 +56,14 @@ async def complementary_data() -> Response:
         return response
 
     except UserNotFound as ex:
-        Gladsheim.info(error=ex, message=ex.msg)
+        Gladsheim.error(error=ex, message=ex.msg)
         response = ResponseModel(
             success=False, code=InternalCode.DATA_NOT_FOUND, message=msg_error
         ).build_http_response(status=HTTPStatus.UNAUTHORIZED)
         return response
 
     except OnboardingStepsStatusCodeNotOk as ex:
-        Gladsheim.info(error=ex, message=ex.msg)
+        Gladsheim.error(error=ex, message=ex.msg)
         response = ResponseModel(
             success=False,
             code=InternalCode.ONBOARDING_STEP_REQUEST_FAILURE,
@@ -74,7 +72,7 @@ async def complementary_data() -> Response:
         return response
 
     except InvalidOnboardingCurrentStep as ex:
-        Gladsheim.info(error=ex, message=ex.msg)
+        Gladsheim.error(error=ex, message=ex.msg)
         response = ResponseModel(
             success=False,
             code=InternalCode.ONBOARDING_STEP_INCORRECT,
@@ -83,7 +81,7 @@ async def complementary_data() -> Response:
         return response
 
     except ErrorOnGetUniqueId as ex:
-        Gladsheim.info(error=ex, message=ex.msg)
+        Gladsheim.error(error=ex, message=ex.msg)
         response = ResponseModel(
             success=False,
             code=InternalCode.JWT_INVALID,
@@ -92,14 +90,14 @@ async def complementary_data() -> Response:
         return response
 
     except ErrorOnUpdateUser as ex:
-        Gladsheim.info(error=ex, message=ex.msg)
+        Gladsheim.error(error=ex, message=ex.msg)
         response = ResponseModel(
             success=False, code=InternalCode.INTERNAL_SERVER_ERROR, message=msg_error
         ).build_http_response(status=HTTPStatus.INTERNAL_SERVER_ERROR)
         return response
 
     except ErrorOnSendAuditLog as ex:
-        Gladsheim.info(error=ex, message=ex.msg)
+        Gladsheim.error(error=ex, message=ex.msg)
         response = ResponseModel(
             success=False, code=InternalCode.INTERNAL_SERVER_ERROR, message=msg_error
         ).build_http_response(status=HTTPStatus.INTERNAL_SERVER_ERROR)
@@ -111,21 +109,21 @@ async def complementary_data() -> Response:
         InvalidNationality,
         InvalidSpouseCpf,
     ) as ex:
-        Gladsheim.info(error=ex)
+        Gladsheim.error(error=ex, message=str(ex))
         response = ResponseModel(
             success=False, code=InternalCode.INVALID_PARAMS, message="Invalid params"
         ).build_http_response(status=HTTPStatus.BAD_REQUEST)
         return response
 
     except ValueError as ex:
-        Gladsheim.info(error=ex)
+        Gladsheim.error(error=ex, message=str(ex))
         response = ResponseModel(
             success=False, code=InternalCode.INVALID_PARAMS, message="Invalid params"
         ).build_http_response(status=HTTPStatus.BAD_REQUEST)
         return response
 
     except Exception as ex:
-        Gladsheim.error(error=ex)
+        Gladsheim.error(error=ex, message=str(ex))
         response = ResponseModel(
             success=False, code=InternalCode.INTERNAL_SERVER_ERROR, message=msg_error
         ).build_http_response(status=HTTPStatus.INTERNAL_SERVER_ERROR)
