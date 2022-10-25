@@ -134,28 +134,3 @@ async def test_when_update_user_fail_then_raises(
 ):
     with pytest.raises(ErrorOnUpdateUser):
         await ComplementaryDataService.update_user_with_complementary_data(comp_data_service.payload_validated, comp_data_service.unique_id)
-
-
-@pytest.mark.asyncio
-@patch(
-    "src.transports.onboarding_steps.transport.OnboardingSteps.get_user_current_step",
-    return_value="complementary_data",
-)
-async def test_when_current_step_correct_then_return_true(
-    mock_onboarding_steps, comp_data_service
-):
-    result = await comp_data_service.validate_current_onboarding_step()
-
-    assert result is True
-
-
-@pytest.mark.asyncio
-@patch(
-    "src.transports.onboarding_steps.transport.OnboardingSteps.get_user_current_step",
-    return_value="finished",
-)
-async def test_when_current_step_invalid_then_return_raises(
-    mock_onboarding_steps, comp_data_service
-):
-    with pytest.raises(InvalidOnboardingCurrentStep):
-        await comp_data_service.validate_current_onboarding_step()

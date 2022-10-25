@@ -1,6 +1,7 @@
 
-from ..domain.enums.types import UserOnboardingStep
-from ..domain.exceptions.exceptions import InvalidOnboardingCurrentStep, UserNotFound, InvalidSpouseCpf
+from ..domain.enums.types import UserOnboardingStep, UserAntiFraudStatus
+from ..domain.exceptions.exceptions import InvalidOnboardingCurrentStep, UserNotFound, InvalidSpouseCpf, \
+    InvalidOnboardingAntiFraud
 from ..domain.validators.validator import ComplementaryData
 from ..repositories.mongo_db.user.repository import UserRepository
 from ..services.user_enumerate_data import EnumerateService
@@ -16,8 +17,10 @@ class ValidateRulesService:
 
     async def validate_current_onboarding_step(self) -> bool:
         user_current_step = await OnboardingSteps.get_user_current_step(jwt=self.jwt)
-        if not user_current_step == UserOnboardingStep.COMPLEMENTARY_DATA:
-            raise InvalidOnboardingCurrentStep
+        if not user_current_step.step == UserOnboardingStep.COMPLEMENTARY_DATA:
+            raise InvalidOnboardingCurrentStep(user_current_step.step)
+        if user_current_step.anti_fraud == UserAntiFraudStatus.REPROVED:
+            raise InvalidOnboardingAntiFraud()
         return True
 
     async def _get_user(self) -> dict:
