@@ -14,5 +14,9 @@ class UserOnboardingStep(StrEnum):
     COMPLEMENTARY_DATA = "complementary_data"
 
 
+class UserAntiFraudStatus(StrEnum):
+    REPROVED = "reproved"
+
+
 class UserOrigins(StrEnum):
     LIGA = "liga"

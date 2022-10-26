@@ -25,7 +25,7 @@ with patch.object(RepositoryEnv, "__init__", return_value=None):
                     ErrorOnGetUniqueId,
                     InvalidNationality,
                     ErrorOnSendAuditLog,
-                    ErrorOnDecodeJwt, ErrorOnUpdateUser, UserNotFound, InvalidMaritalStatus,
+                    ErrorOnDecodeJwt, ErrorOnUpdateUser, UserNotFound, InvalidMaritalStatus, InvalidOnboardingAntiFraud,
 )
                 from src.services.validate_rules import ValidateRulesService
                 from src.services.complementary_data import ComplementaryDataService
@@ -52,11 +52,18 @@ onboarding_steps_status_code_not_ok_case = (
     HTTPStatus.INTERNAL_SERVER_ERROR,
 )
 invalid_onboarding_current_step_case = (
-    InvalidOnboardingCurrentStep(),
-    InvalidOnboardingCurrentStep.msg,
+    InvalidOnboardingCurrentStep("asd"),
+    InvalidOnboardingCurrentStep.msg.format("asd"),
     InternalCode.ONBOARDING_STEP_INCORRECT,
     "User is not in correct step",
     HTTPStatus.BAD_REQUEST,
+)
+invalid_onboarding_anti_fraud_case = (
+    InvalidOnboardingAntiFraud(),
+    InvalidOnboardingAntiFraud.msg,
+    InternalCode.ONBOARDING_STEP_INCORRECT,
+    "User not approved",
+    HTTPStatus.FORBIDDEN
 )
 error_on_get_unique_id_case = (
     ErrorOnGetUniqueId(),
@@ -112,6 +119,7 @@ exception_case = (
         invalid_onboarding_current_step_case,
         error_on_get_unique_id_case,
         error_on_update_user_case,
+        invalid_onboarding_anti_fraud_case,
         error_on_send_audit_log_case,
         invalid_marital_status_case,
         value_error_case,

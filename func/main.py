@@ -10,7 +10,7 @@ from src.domain.exceptions.exceptions import (
     InvalidNationality,
     InvalidMaritalStatus,
     InvalidCountryAcronym,
-    InvalidSpouseCpf,
+    InvalidSpouseCpf, InvalidOnboardingAntiFraud,
 )
 from src.domain.enums.code import InternalCode
 from src.domain.response.model import ResponseModel
@@ -72,12 +72,21 @@ async def complementary_data() -> flask.Response:
         return response
 
     except InvalidOnboardingCurrentStep as ex:
-        Gladsheim.error(error=ex, message=ex.msg)
+        Gladsheim.error(error=ex, message=ex.msg.format(str(ex)))
         response = ResponseModel(
             success=False,
             code=InternalCode.ONBOARDING_STEP_INCORRECT,
             message="User is not in correct step",
         ).build_http_response(status=HTTPStatus.BAD_REQUEST)
+        return response
+
+    except InvalidOnboardingAntiFraud as ex:
+        Gladsheim.error(error=ex, message=ex.msg)
+        response = ResponseModel(
+            success=False,
+            code=InternalCode.ONBOARDING_STEP_INCORRECT.value,
+            message="User not approved",
+        ).build_http_response(status=HTTPStatus.FORBIDDEN)
         return response
 
     except ErrorOnGetUniqueId as ex:
