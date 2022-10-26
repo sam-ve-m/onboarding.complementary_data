@@ -12,39 +12,35 @@ name_regex = rf"^{char_without_space}+\s{char_without_space}{char_with_space}*$"
 
 
 class Spouse(BaseModel):
-    name: constr(regex=name_regex, max_length=60)
+    name: Optional[constr(regex=name_regex, max_length=60)]
     nationality: int
     cpf: str
 
-    @validator("cpf", always=True, allow_reuse=True)
+    @validator("cpf")
     def format_cpf(cls, cpf: str):
         cpf = sub("[^0-9]", "", cpf)
         return cpf
 
-    @validator("cpf", always=True, allow_reuse=True)
-    def validate_cpf(cls, cpf: str):
-        cpf_last_digits = cpf[:-2]
-        reversed_count = 10
-        total = 0
-
-        for index in range(19):
-            if index > 8:
-                index -= 9
-            total += int(cpf_last_digits[index]) * reversed_count
-            reversed_count -= 1
-
-            if reversed_count < 2:
-                reversed_count = 11
-                digits = 11 - (total % 11)
-
-                if digits > 9:
-                    digits = 0
-                total = 0
-                cpf_last_digits += str(digits)
-
-        sequence = cpf_last_digits == str(cpf_last_digits[0]) * len(cpf)
-        if not cpf == cpf_last_digits or sequence:
+    @validator("cpf")
+    def validate_cpf(cls, cpf: str) -> str:
+        if len(cpf) != 11:
             raise ValueError("invalid cpf")
+
+        first_digit_validation = sum(
+            int(cpf[index]) * (10 - index) for index in range(9)
+        )
+        mod_first_digit = first_digit_validation % 11
+        first_digit = 11 - mod_first_digit if mod_first_digit > 1 else 0
+        if str(first_digit) != cpf[-2]:
+            raise ValueError("invalid cpf")
+
+        second_digit_validation = (
+            first_digit_validation + sum(map(int, cpf[:9])) + 2 * first_digit
+        )
+        mod_second_digit = second_digit_validation % 11
+        second_digit = 11 - mod_second_digit if mod_second_digit > 1 else 0
+        if str(second_digit) != cpf[-1]:
+            raise ValueError(f"invalid cpf")
         return cpf
 
 
