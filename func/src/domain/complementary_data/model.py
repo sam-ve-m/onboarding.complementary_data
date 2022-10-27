@@ -1,5 +1,4 @@
 # Jormungandr - Onboarding
-from ..enums.types import UserOrigins
 from ..validators.validator import ComplementaryData
 
 # Standards
@@ -47,7 +46,6 @@ class ComplementaryDataModel:
                 "status": self.marital_status,
                 "spouse": spouse,
             },
-            "origin": UserOrigins.LIGA.value,
         }
         return template
 
