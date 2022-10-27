@@ -16,7 +16,3 @@ class UserOnboardingStep(StrEnum):
 
 class UserAntiFraudStatus(StrEnum):
     REPROVED = "reproved"
-
-
-class UserOrigins(StrEnum):
-    LIGA = "liga"
