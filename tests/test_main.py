@@ -87,8 +87,8 @@ error_on_send_audit_log_case = (
     HTTPStatus.INTERNAL_SERVER_ERROR,
 )
 invalid_marital_status_case = (
-    InvalidMaritalStatus("dummy"),
-    "dummy",
+    InvalidMaritalStatus(),
+    InvalidMaritalStatus.msg,
     InternalCode.INVALID_PARAMS,
     "Invalid params",
     HTTPStatus.BAD_REQUEST,

@@ -1,4 +1,3 @@
-# Jormungandr - Onboarding
 from src.domain.exceptions.exceptions import (
     UserNotFound,
     ErrorOnUpdateUser,
@@ -20,9 +19,9 @@ from src.services.validate_rules import ValidateRulesService
 from src.services.complementary_data import ComplementaryDataService
 
 from http import HTTPStatus
-import flask
 
 from etria_logger import Gladsheim
+import flask
 
 
 async def complementary_data() -> flask.Response:
@@ -118,7 +117,7 @@ async def complementary_data() -> flask.Response:
         InvalidNationality,
         InvalidSpouseCpf,
     ) as ex:
-        Gladsheim.error(error=ex, message=str(ex))
+        Gladsheim.error(error=ex, message=ex.msg)
         response = ResponseModel(
             success=False, code=InternalCode.INVALID_PARAMS, message="Invalid params"
         ).build_http_response(status=HTTPStatus.BAD_REQUEST)
