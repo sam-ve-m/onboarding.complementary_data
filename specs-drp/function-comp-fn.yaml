@@ -1,0 +1,55 @@
+include:
+- ./func/*
+kind: ArchiveUploadSpec
+name: func-cacW
+
+---
+apiVersion: fission.io/v1
+kind: Package
+metadata:
+  creationTimestamp: null
+  name: comp-fn-cea270c3-f578-4996-b7f6-46b36ad760e9
+  namespace: default
+spec:
+  deployment:
+    checksum: {}
+  environment:
+    name: complement-env
+    namespace: default
+  source:
+    checksum: {}
+    type: url
+    url: archive://func-cacW
+status:
+  buildstatus: pending
+  lastUpdateTimestamp: "2022-07-18T15:02:22Z"
+
+---
+apiVersion: fission.io/v1
+kind: Function
+metadata:
+  creationTimestamp: null
+  name: comp-fn
+  namespace: default
+spec:
+  InvokeStrategy:
+    ExecutionStrategy:
+      ExecutorType: newdeploy
+      MaxScale: 3
+      MinScale: 1
+      SpecializationTimeout: 120
+      TargetCPUPercent: 80
+    StrategyType: execution
+  concurrency: 500
+  environment:
+    name: complement-env
+    namespace: default
+  functionTimeout: 60
+  idletimeout: 120
+  package:
+    functionName: main.complementary_data
+    packageref:
+      name: comp-fn-cea270c3-f578-4996-b7f6-46b36ad760e9
+      namespace: default
+  requestsPerPod: 1
+  resources: {}
