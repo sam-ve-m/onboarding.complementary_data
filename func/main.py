@@ -9,7 +9,8 @@ from src.domain.exceptions.exceptions import (
     InvalidNationality,
     InvalidMaritalStatus,
     InvalidCountryAcronym,
-    InvalidSpouseCpf, InvalidOnboardingAntiFraud,
+    InvalidSpouseCpf,
+    InvalidOnboardingAntiFraud,
 )
 from src.domain.enums.code import InternalCode
 from src.domain.response.model import ResponseModel
@@ -32,13 +33,10 @@ async def complementary_data() -> flask.Response:
         unique_id = await JwtService.decode_jwt_and_get_unique_id(jwt=jwt)
         payload_validated = ComplementaryData(**raw_payload)
         await ValidateRulesService(
-            payload_validated=payload_validated, 
-            unique_id=unique_id, 
-            jwt=jwt
+            payload_validated=payload_validated, unique_id=unique_id, jwt=jwt
         ).apply_validate_rules_to_proceed()
         success = await ComplementaryDataService.update_user_with_complementary_data(
-            unique_id=unique_id,
-            payload_validated=payload_validated
+            unique_id=unique_id, payload_validated=payload_validated
         )
         response = ResponseModel(
             success=success,

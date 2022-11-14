@@ -24,11 +24,11 @@ def raise_second(*args):
 @patch.object(AsyncClient, "__aexit__", side_effect=raise_second)
 @patch.object(Onboarding, "__init__", return_value=None)
 async def test_when_success_to_get_onboarding_steps_then_returns_current_step(
-        mocked_model,
-        mocked_client_exit,
-        mocked_client_enter,
-        mocked_client_instance,
-        mocked_env
+    mocked_model,
+    mocked_client_exit,
+    mocked_client_enter,
+    mocked_client_instance,
+    mocked_env,
 ):
     mocked_client_enter.return_value.get.return_value = MagicMock()
     mocked_client_enter.return_value.get.return_value.status_code = 200
@@ -38,18 +38,10 @@ async def test_when_success_to_get_onboarding_steps_then_returns_current_step(
     )
     mocked_model.assert_called_once_with(
         step=(
-            mocked_client_enter.return_value
-            .get.return_value
-            .json.return_value
-            .get.return_value
-            .get.return_value
+            mocked_client_enter.return_value.get.return_value.json.return_value.get.return_value.get.return_value
         ),
         anti_fraud=(
-            mocked_client_enter.return_value
-            .get.return_value
-            .json.return_value
-            .get.return_value
-            .get.return_value
+            mocked_client_enter.return_value.get.return_value.json.return_value.get.return_value.get.return_value
         ),
     )
 
@@ -61,11 +53,11 @@ async def test_when_success_to_get_onboarding_steps_then_returns_current_step(
 @patch.object(AsyncClient, "__aexit__", side_effect=raise_second)
 @patch.object(Onboarding, "__init__", return_value=None)
 async def test_when_success_to_get_onboarding_steps_then_raises(
-        mocked_model,
-        mocked_client_exit,
-        mocked_client_enter,
-        mocked_client_instance,
-        mocked_env
+    mocked_model,
+    mocked_client_exit,
+    mocked_client_enter,
+    mocked_client_instance,
+    mocked_env,
 ):
     mocked_client_enter.return_value.get.return_value = MagicMock()
     mocked_client_enter.return_value.get.return_value.status_code = 500

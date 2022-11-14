@@ -7,9 +7,10 @@ from ..transports.audit.transport import Audit
 
 
 class ComplementaryDataService:
-
     @staticmethod
-    async def update_user_with_complementary_data(payload_validated: ComplementaryData, unique_id: str) -> bool:
+    async def update_user_with_complementary_data(
+        payload_validated: ComplementaryData, unique_id: str
+    ) -> bool:
         complementary_data_model = ComplementaryDataModel(
             payload_validated=payload_validated,
             unique_id=unique_id,
@@ -21,7 +22,8 @@ class ComplementaryDataService:
             complementary_data_model=complementary_data_model
         )
         user_updated = await UserRepository.update_one_with_user_complementary_data(
-            unique_id=unique_id, user_complementary_data=user_complementary_data_template
+            unique_id=unique_id,
+            user_complementary_data=user_complementary_data_template,
         )
         if not user_updated.matched_count:
             raise ErrorOnUpdateUser

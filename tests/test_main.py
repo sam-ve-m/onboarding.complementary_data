@@ -25,8 +25,12 @@ with patch.object(RepositoryEnv, "__init__", return_value=None):
                     ErrorOnGetUniqueId,
                     InvalidNationality,
                     ErrorOnSendAuditLog,
-                    ErrorOnDecodeJwt, ErrorOnUpdateUser, UserNotFound, InvalidMaritalStatus, InvalidOnboardingAntiFraud,
-)
+                    ErrorOnDecodeJwt,
+                    ErrorOnUpdateUser,
+                    UserNotFound,
+                    InvalidMaritalStatus,
+                    InvalidOnboardingAntiFraud,
+                )
                 from src.services.validate_rules import ValidateRulesService
                 from src.services.complementary_data import ComplementaryDataService
 
@@ -63,7 +67,7 @@ invalid_onboarding_anti_fraud_case = (
     InvalidOnboardingAntiFraud.msg,
     InternalCode.ONBOARDING_STEP_INCORRECT,
     "User not approved",
-    HTTPStatus.FORBIDDEN
+    HTTPStatus.FORBIDDEN,
 )
 error_on_get_unique_id_case = (
     ErrorOnGetUniqueId(),
