@@ -1,4 +1,4 @@
-# Jormungandr - Onboarding
+from ..domain.models.device_info import DeviceInfo
 from ..domain.validators.validator import ComplementaryData
 from ..repositories.mongo_db.user.repository import UserRepository
 from ..domain.exceptions.exceptions import ErrorOnUpdateUser
@@ -9,11 +9,12 @@ from ..transports.audit.transport import Audit
 class ComplementaryDataService:
     @staticmethod
     async def update_user_with_complementary_data(
-        payload_validated: ComplementaryData, unique_id: str
+        payload_validated: ComplementaryData, unique_id: str, device_info: DeviceInfo
     ) -> bool:
         complementary_data_model = ComplementaryDataModel(
             payload_validated=payload_validated,
             unique_id=unique_id,
+            device_info=device_info,
         )
         user_complementary_data_template = (
             await complementary_data_model.get_user_update_template()
@@ -26,5 +27,5 @@ class ComplementaryDataService:
             user_complementary_data=user_complementary_data_template,
         )
         if not user_updated.matched_count:
-            raise ErrorOnUpdateUser
+            raise ErrorOnUpdateUser()
         return True

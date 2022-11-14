@@ -16,5 +16,5 @@ class JwtService:
             raise ErrorOnDecodeJwt
         unique_id = jwt_content.get("decoded_jwt", {}).get("user", {}).get("unique_id")
         if not unique_id:
-            raise ErrorOnGetUniqueId
+            raise ErrorOnGetUniqueId()
         return unique_id

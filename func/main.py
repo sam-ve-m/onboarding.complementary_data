@@ -1,3 +1,4 @@
+from src.transports.device_info.transport import DeviceSecurity
 from src.domain.exceptions.exceptions import (
     UserNotFound,
     ErrorOnUpdateUser,
@@ -11,6 +12,8 @@ from src.domain.exceptions.exceptions import (
     InvalidCountryAcronym,
     InvalidSpouseCpf,
     InvalidOnboardingAntiFraud,
+    DeviceInfoRequestFailed,
+    DeviceInfoNotSupplied,
 )
 from src.domain.enums.code import InternalCode
 from src.domain.response.model import ResponseModel
@@ -26,17 +29,24 @@ import flask
 
 
 async def complementary_data() -> flask.Response:
-    jwt = flask.request.headers.get("x-thebes-answer")
     msg_error = "Unexpected error occurred"
+
     try:
+        jwt = flask.request.headers.get("x-thebes-answer")
+        encoded_device_info = flask.request.headers.get("x-device-info")
         raw_payload = flask.request.json
-        unique_id = await JwtService.decode_jwt_and_get_unique_id(jwt=jwt)
+
         payload_validated = ComplementaryData(**raw_payload)
+        unique_id = await JwtService.decode_jwt_and_get_unique_id(jwt=jwt)
+        device_info = await DeviceSecurity.get_device_info(encoded_device_info)
         await ValidateRulesService(
             payload_validated=payload_validated, unique_id=unique_id, jwt=jwt
         ).apply_validate_rules_to_proceed()
+
         success = await ComplementaryDataService.update_user_with_complementary_data(
-            unique_id=unique_id, payload_validated=payload_validated
+            unique_id=unique_id,
+            payload_validated=payload_validated,
+            device_info=device_info,
         )
         response = ResponseModel(
             success=success,
@@ -118,6 +128,24 @@ async def complementary_data() -> flask.Response:
         Gladsheim.error(error=ex, message=ex.msg)
         response = ResponseModel(
             success=False, code=InternalCode.INVALID_PARAMS, message="Invalid params"
+        ).build_http_response(status=HTTPStatus.BAD_REQUEST)
+        return response
+
+    except DeviceInfoRequestFailed as ex:
+        Gladsheim.error(error=ex, message=ex.msg)
+        response = ResponseModel(
+            success=False,
+            code=InternalCode.INTERNAL_SERVER_ERROR.value,
+            message="Error trying to get device info",
+        ).build_http_response(status=HTTPStatus.INTERNAL_SERVER_ERROR)
+        return response
+
+    except DeviceInfoNotSupplied as ex:
+        Gladsheim.error(error=ex, message=ex.msg)
+        response = ResponseModel(
+            success=False,
+            code=InternalCode.INVALID_PARAMS.value,
+            message="Device info not supplied",
         ).build_http_response(status=HTTPStatus.BAD_REQUEST)
         return response
 

@@ -28,7 +28,7 @@ class ValidateRulesService:
     async def _get_user(self) -> dict:
         user = await UserRepository.find_one_by_unique_id(unique_id=self.unique_id)
         if not user:
-            raise UserNotFound
+            raise UserNotFound()
         return user
 
     async def _validate_cpf_is_not_the_same(self) -> bool:
@@ -38,7 +38,7 @@ class ValidateRulesService:
             bool(self.payload_validated.spouse)
             and self.payload_validated.spouse.cpf == user_cpf
         ):
-            raise InvalidSpouseCpf
+            raise InvalidSpouseCpf()
         return True
 
     async def apply_validate_rules_to_proceed(self):
