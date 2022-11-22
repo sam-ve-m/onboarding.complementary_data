@@ -1,12 +1,10 @@
-# Jormungandr - Onboarding
-from ...domain.exceptions.exceptions import ErrorOnSendAuditLog
-from ...domain.enums.types import QueueTypes
-from ...domain.complementary_data.model import ComplementaryDataModel
-
-# Third party
 from decouple import config
 from etria_logger import Gladsheim
 from persephone_client import Persephone
+
+from ...domain.complementary_data.model import ComplementaryDataModel
+from ...domain.enums.types import QueueTypes
+from ...domain.exceptions.exceptions import ErrorOnSendAuditLog
 
 
 class Audit:
@@ -31,5 +29,5 @@ class Audit:
             Gladsheim.error(
                 message="Audit::register_user_log::Error on trying to register log"
             )
-            raise ErrorOnSendAuditLog
+            raise ErrorOnSendAuditLog()
         return True

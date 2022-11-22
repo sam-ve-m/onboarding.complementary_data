@@ -1,8 +1,7 @@
-# Jormungandr - Onboarding
-from ..validators.validator import ComplementaryData
-
-# Standards
 from typing import Union
+
+from ..models.device_info import DeviceInfo
+from ..validators.validator import ComplementaryData
 
 
 class TaxResidenceModel:
@@ -23,11 +22,17 @@ class SpouseModel:
 
 
 class ComplementaryDataModel:
-    def __init__(self, payload_validated: ComplementaryData, unique_id: str):
+    def __init__(
+        self,
+        payload_validated: ComplementaryData,
+        unique_id: str,
+        device_info: DeviceInfo,
+    ):
         self.unique_id = unique_id
         self.complementary_data = payload_validated
         self.spouse = self._create_spouse_composition()
         self.marital_status = payload_validated.marital_status
+        self.device_info = device_info
 
     def _create_spouse_composition(self) -> Union[SpouseModel, None]:
         spouse = self.complementary_data.spouse
@@ -54,5 +59,7 @@ class ComplementaryDataModel:
         template = {
             "unique_id": self.unique_id,
             "marital": {"status": self.marital_status, "spouse": spouse},
+            "device_info": self.device_info.device_info,
+            "device_id": self.device_info.device_id,
         }
         return template

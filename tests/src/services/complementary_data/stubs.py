@@ -1,6 +1,7 @@
 # Jormungandr - Onboarding
 from func.src.domain.complementary_data.model import ComplementaryDataModel
 from func.src.domain.validators.validator import ComplementaryData
+from src.domain.models.device_info import DeviceInfo
 
 
 class UserUpdated:
@@ -33,11 +34,14 @@ stub_comp_data_only_mandatory_validated = ComplementaryData(
 stub_comp_data_with_optionals_validated = ComplementaryData(
     **stub_raw_comp_data_with_optionals
 )
+stub_device_info = DeviceInfo({"precision": 1}, "")
 stub_comp_data_model = ComplementaryDataModel(
     payload_validated=stub_comp_data_with_optionals_validated,
     unique_id=stub_unique_id,
+    device_info=stub_device_info,
 )
 stub_comp_data_model_mandatory = ComplementaryDataModel(
     payload_validated=stub_comp_data_only_mandatory_validated,
     unique_id=stub_unique_id,
+    device_info=stub_device_info,
 )

@@ -15,6 +15,7 @@ from tests.src.services.complementary_data.stubs import (
     stub_user_same_cpf,
     stub_user_updated,
     stub_user_not_updated,
+    stub_device_info,
 )
 
 # Standard
@@ -93,7 +94,11 @@ async def test_when_same_cpf_user_then_raises(mock_get_user, comp_data_service):
 async def test_when_update_user_success_then_return_true(
     mock_validate_cpf, mock_audit, mock_update, comp_data_service
 ):
-    success = await ComplementaryDataService.update_user_with_complementary_data(comp_data_service.payload_validated, comp_data_service.unique_id)
+    success = await ComplementaryDataService.update_user_with_complementary_data(
+        comp_data_service.payload_validated,
+        comp_data_service.unique_id,
+        stub_device_info,
+    )
 
     assert success is True
 
@@ -107,14 +112,17 @@ async def test_when_update_user_success_then_return_true(
 async def test_when_update_user_success_then_mock_was_called(
     mock_audit, mock_update, comp_data_service
 ):
-    await ComplementaryDataService.update_user_with_complementary_data(comp_data_service.payload_validated, comp_data_service.unique_id)
+    await ComplementaryDataService.update_user_with_complementary_data(
+        comp_data_service.payload_validated,
+        comp_data_service.unique_id,
+        stub_device_info,
+    )
     complementary_data_model = ComplementaryDataModel(
         payload_validated=comp_data_service.payload_validated,
-        unique_id=comp_data_service.unique_id
+        unique_id=comp_data_service.unique_id,
+        device_info=stub_device_info,
     )
-    user_complementary_data = (
-        await complementary_data_model.get_user_update_template()
-    )
+    user_complementary_data = await complementary_data_model.get_user_update_template()
 
     mock_audit.assert_called_once()
     mock_update.assert_called_once_with(
@@ -133,4 +141,8 @@ async def test_when_update_user_fail_then_raises(
     mock_validate_cpf, mock_audit, mock_update, comp_data_service
 ):
     with pytest.raises(ErrorOnUpdateUser):
-        await ComplementaryDataService.update_user_with_complementary_data(comp_data_service.payload_validated, comp_data_service.unique_id)
+        await ComplementaryDataService.update_user_with_complementary_data(
+            comp_data_service.payload_validated,
+            comp_data_service.unique_id,
+            stub_device_info,
+        )

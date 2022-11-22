@@ -3,7 +3,10 @@ from unittest.mock import patch, MagicMock
 import pytest
 
 from src.domain.enums.types import UserOnboardingStep, UserAntiFraudStatus
-from src.domain.exceptions.exceptions import InvalidOnboardingCurrentStep, InvalidOnboardingAntiFraud
+from src.domain.exceptions.exceptions import (
+    InvalidOnboardingCurrentStep,
+    InvalidOnboardingAntiFraud,
+)
 from src.services.validate_rules import ValidateRulesService
 from src.transports.onboarding_steps.transport import OnboardingSteps
 

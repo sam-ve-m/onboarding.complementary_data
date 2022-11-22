@@ -26,12 +26,12 @@ class EnumerateService:
             nationality_code=nationality_code
         )
         if not result:
-            raise InvalidNationality
+            raise InvalidNationality()
         return True
 
     async def _validate_marital_status(self) -> bool:
         marital_code = self.complementary_data.marital_status
         result = await EnumerateRepository.get_marital_status(marital_code=marital_code)
         if not result:
-            raise InvalidMaritalStatus
+            raise InvalidMaritalStatus()
         return True
