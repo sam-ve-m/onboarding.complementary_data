@@ -53,7 +53,11 @@ spec:
             - name: HEIMDALL_REDIS_URL
               value: "redis://heimdal:LLOnmUUffhaUHnewIz@172.30.11.235:6379?db=1"
             - name: ORACLE_CONNECTION_STRING
-              value: "ujormdb001/kALneMdsin767@(DESCRIPTION=(ADDRESS=(PROTOCOL=tcp)(HOST=172.30.10.227)(PORT=1521))(CONNECT_DATA=(SERVICE_NAME=OPDBDEV.SUBPRIV.VCNDEV.ORACLEVCN.COM)))"
+              value: "(DESCRIPTION=(ADDRESS=(PROTOCOL=tcp)(HOST=172.30.10.227)(PORT=1521))(CONNECT_DATA=(SERVICE_NAME=OPDBDEV.SUBPRIV.VCNDEV.ORACLEVCN.COM)))"
+            - name: ORACLE_USER
+              value: "ujormdb001"
+            - name: ORACLE_PASSWORD
+              value: "kALneMdsin767"
             - name: ONBOARDING_STEPS_BR_URL
               value: "http://router.fission.svc.cluster.local/onboarding/steps_br"
             - name: DEVICE_SECURITY_DEVICE_ID_URL
