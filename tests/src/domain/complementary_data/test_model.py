@@ -13,7 +13,7 @@ async def test_when_not_have_spouse_then_return_expected_user_template_values():
     user_template = await stub_comp_data_model_mandatory.get_user_update_template()
 
     assert isinstance(user_template, dict)
-    assert user_template.get("marital").get("spouse") is None
+    assert user_template.get("marital").get("spouse") == {}
 
 
 @pytest.mark.asyncio

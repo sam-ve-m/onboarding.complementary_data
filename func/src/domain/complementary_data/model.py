@@ -45,7 +45,7 @@ class ComplementaryDataModel:
         return spouse_model
 
     async def get_user_update_template(self) -> dict:
-        spouse = self.spouse.to_dict() if bool(self.spouse) else None
+        spouse = self.spouse.to_dict() if bool(self.spouse) else {}
         template = {
             "marital": {
                 "status": self.marital_status,
