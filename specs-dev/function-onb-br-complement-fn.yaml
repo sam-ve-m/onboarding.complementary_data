@@ -1,35 +1,35 @@
 include:
-- ./func/*
+- fission.py
 kind: ArchiveUploadSpec
-name: func-nkiP
+name: fission-py-lLfU
 
 ---
 apiVersion: fission.io/v1
 kind: Package
 metadata:
   creationTimestamp: null
-  name: comp-fn-2e856f78-e317-4310-8fe9-a28ff115fd8d
+  name: onb-br-complement-fn-2a2623f4-72f6-44f9-b1ae-450820a5466b
   namespace: default
 spec:
   deployment:
     checksum: {}
+    type: url
+    url: archive://fission-py-lLfU
   environment:
-    name: complement-env
+    name: onb-br-complement-env
     namespace: default
   source:
     checksum: {}
-    type: url
-    url: archive://func-nkiP
 status:
-  buildstatus: pending
-  lastUpdateTimestamp: "2022-07-13T19:51:54Z"
+  buildstatus: none
+  lastUpdateTimestamp: "2023-01-05T15:53:14Z"
 
 ---
 apiVersion: fission.io/v1
 kind: Function
 metadata:
   creationTimestamp: null
-  name: comp-fn
+  name: onb-br-complement-fn
   namespace: default
 spec:
   InvokeStrategy:
@@ -37,19 +37,25 @@ spec:
       ExecutorType: newdeploy
       MaxScale: 3
       MinScale: 1
-      SpecializationTimeout: 10
-      TargetCPUPercent: 80
+      SpecializationTimeout: 120
+      TargetCPUPercent: 0
+      hpaMetrics:
+      - resource:
+          name: cpu
+          target:
+            averageUtilization: 80
+            type: Utilization
+        type: Resource
     StrategyType: execution
   concurrency: 500
   environment:
-    name: complement-env
+    name: onb-br-complement-env
     namespace: default
   functionTimeout: 60
   idletimeout: 120
   package:
-    functionName: main.complementary_data
     packageref:
-      name: comp-fn-2e856f78-e317-4310-8fe9-a28ff115fd8d
+      name: onb-br-complement-fn-2a2623f4-72f6-44f9-b1ae-450820a5466b
       namespace: default
-  requestsPerPod: 1
+  requestsPerPod: 10000
   resources: {}

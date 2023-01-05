@@ -1,5 +1,5 @@
-from src.transports.device_info.transport import DeviceSecurity
-from src.domain.exceptions.exceptions import (
+from func.src.transports.device_info.transport import DeviceSecurity
+from func.src.domain.exceptions.exceptions import (
     UserNotFound,
     ErrorOnUpdateUser,
     ErrorOnDecodeJwt,
@@ -15,12 +15,12 @@ from src.domain.exceptions.exceptions import (
     DeviceInfoRequestFailed,
     DeviceInfoNotSupplied,
 )
-from src.domain.enums.code import InternalCode
-from src.domain.response.model import ResponseModel
-from src.domain.validators.validator import ComplementaryData
-from src.services.jwt import JwtService
-from src.services.validate_rules import ValidateRulesService
-from src.services.complementary_data import ComplementaryDataService
+from func.src.domain.enums.code import InternalCode
+from func.src.domain.response.model import ResponseModel
+from func.src.domain.validators.validator import ComplementaryData
+from func.src.services.jwt import JwtService
+from func.src.services.validate_rules import ValidateRulesService
+from func.src.services.complementary_data import ComplementaryDataService
 
 from http import HTTPStatus
 

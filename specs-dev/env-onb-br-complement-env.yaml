@@ -2,23 +2,24 @@ apiVersion: fission.io/v1
 kind: Environment
 metadata:
   creationTimestamp: null
-  name: complement-env
+  name: onb-br-complement-env
   namespace: default
 spec:
   builder:
-    command: build
     container:
       name: ""
       resources: {}
-    image: nexus.sigame.com.br/fission-builder-3.8:0.0.1
-  imagepullsecret: "nexus-v3"
+  imagepullsecret: nexus-v3
   keeparchive: false
   resources: {}
   runtime:
-    image: nexus.sigame.com.br/fission-async-cx:0.0.1
+    container:
+      name: ""
+      resources: {}
+    image: nexus.sigame.com.br/fission-onboarding-br-complement:0.1.0
     podspec:
       containers:
-        - name: complement-env
+        - name: onb-br-complement-env
           env:
             - name: ROOT_LOG_LEVEL
               value: "INFO"

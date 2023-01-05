@@ -1,7 +1,7 @@
 # Jormungandr - Onboarding
 from func.src.domain.complementary_data.model import ComplementaryDataModel
 from func.src.domain.validators.validator import ComplementaryData
-from src.domain.models.device_info import DeviceInfo
+from func.src.domain.models.device_info import DeviceInfo
 
 
 class UserUpdated:
