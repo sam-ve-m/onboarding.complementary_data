@@ -1,5 +1,4 @@
-#!/bin/bash
 fission spec init
-fission env create --spec --name complement-env --image nexus.sigame.com.br/fission-async-cx:0.0.1 --builder nexus.sigame.com.br/fission-builder-3.8:0.0.1
-fission fn create --spec --name comp-fn --env complement-env --src "./func/*" --entrypoint main.complementary_data --executortype newdeploy --maxscale 1
-fission route create --spec --name compd-rt --method PUT --url /onboarding/complementary_data --function comp-fn
+fission env create --spec --name onb-br-complement-env --image nexus.sigame.com.br/fission-onboarding-br-complement:0.1.0 --poolsize 0 --version 3 --imagepullsecret "nexus-v3" --spec
+fission fn create --spec --name onb-br-complement-fn --env onb-br-complement-env --code fission.py --targetcpu 80 --executortype newdeploy --maxscale 3 --requestsperpod 10000 --spec
+fission route create --spec --name onb-br-complement-rt --method PUT --url /onboarding/complementary_data --function onb-br-complement-fn

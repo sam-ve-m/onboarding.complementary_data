@@ -1,6 +1,6 @@
 # Jormungandr - Onboarding
 from func.src.services.user_enumerate_data import EnumerateService
-from src.services.validate_rules import ValidateRulesService
+from func.src.services.validate_rules import ValidateRulesService
 from tests.src.services.complementary_data.stubs import (
     stub_comp_data_only_mandatory_validated,
     stub_comp_data_with_optionals_validated,

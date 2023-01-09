@@ -2,13 +2,13 @@ from unittest.mock import patch, MagicMock
 
 import pytest
 
-from src.domain.enums.types import UserOnboardingStep, UserAntiFraudStatus
-from src.domain.exceptions.exceptions import (
+from func.src.domain.enums.types import UserOnboardingStep, UserAntiFraudStatus
+from func.src.domain.exceptions.exceptions import (
     InvalidOnboardingCurrentStep,
     InvalidOnboardingAntiFraud,
 )
-from src.services.validate_rules import ValidateRulesService
-from src.transports.onboarding_steps.transport import OnboardingSteps
+from func.src.services.validate_rules import ValidateRulesService
+from func.src.transports.onboarding_steps.transport import OnboardingSteps
 
 dummy_value = MagicMock()
 

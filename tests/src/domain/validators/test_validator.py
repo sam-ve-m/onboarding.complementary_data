@@ -1,6 +1,6 @@
 import pytest
 
-from src.domain.validators.validator import Spouse
+from func.src.domain.validators.validator import Spouse
 
 
 def test_when_cpf_valid_then_proceed():
