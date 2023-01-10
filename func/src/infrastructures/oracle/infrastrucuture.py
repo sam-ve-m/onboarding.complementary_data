@@ -15,17 +15,12 @@ class OracleInfrastructure:
         if cls.pool is None:
             try:
                 cls.pool = await cx_Oracle_async.create_pool(
+                    dsn=config("ORACLE_CONNECTION_STRING"),
                     user=config("ORACLE_USER"),
                     password=config("ORACLE_PASSWORD"),
                     min=2,
                     max=100,
-                    increment=1,
-                    dsn=cx_Oracle_async.makedsn(
-                        config("ORACLE_BASE_DSN"),
-                        config("ORACLE_PORT"),
-                        service_name=config("ORACLE_SERVICE"),
-                    ),
-                    encoding=config("ORACLE_ENCODING"),
+                    increment=1
                 )
             except Exception as ex:
                 raise ex
